@@ -23,9 +23,10 @@ _In our project we use the following technologies:_
 _To run the project locally, follow these steps:_
 
 1. Clone the repository: `git clone https://github.com/novogran/rest-client-app.git`
-2. Install dependencies: `npm install`
-3. Run the project: `npm run dev`
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+2. Navigate to the project folder: `cd rest-client-app`
+3. Install dependencies: `npm install`
+4. Run the project: `npm run dev`
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
 ## Available Scripts 📑
 
