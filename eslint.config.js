@@ -17,7 +17,7 @@ export default tseslint.config(
     extends: ['next/core-web-vitals'],
   }),
   { ignores: ['dist', '.next', 'coverage'] },
-  { ignores: ["next-env.d.ts"] },
+  { ignores: ['next-env.d.ts'] },
   {
     extends: [
       js.configs.recommended,
