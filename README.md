@@ -5,14 +5,12 @@
 _In our project we use the following technologies:_
 
 - **Frontend**:
-
   - [React](https://reactjs.org/) with [TypeScript](https://www.typescriptlang.org/)
   - [Next.js](https://nextjs.org/)
   - [MUI](https://mui.com/)
   - [Redux](https://redux.js.org/)
   - [Tailwind CSS](https://tailwindcss.com/)
   - [Firebase](https://firebase.google.com/)
-
 
 - **Code Quality**: [Husky](https://typicode.github.io/husky/), [Prettier](https://prettier.io/), [ESLint](https://eslint.org/)
 
