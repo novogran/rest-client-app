@@ -12,6 +12,9 @@ export default defineConfig({
     coverage: {
       include: ['src/**/*.{js,jsx,ts,tsx}'],
       exclude: [
+        'src/components/ui/**',
+        'src/i18n/**',
+        'src/middleware.ts',
         'src/**/*.test.{js,jsx,ts,tsx}',
         'src/index.{js,jsx,ts,tsx}',
         'src/test/**',

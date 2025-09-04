@@ -1,4 +1,4 @@
-import { LanguageSwitcher } from '@/components/ui/language-switcher';
+import { LanguageSwitcher } from '@/components/shared/language-switcher';
 import { useTranslations } from 'next-intl';
 
 export default function LocaleRootPage() {

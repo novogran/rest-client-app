@@ -9,7 +9,8 @@
   },
   "Common": {
     "LanguageSwitcher": {
-      "label": "Выберите язык"
+      "label": "Выберите язык",
+      "placeholder": "Выберите язык"
     }
   }
 }
