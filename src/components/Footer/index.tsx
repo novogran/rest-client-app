@@ -7,7 +7,7 @@ import Image from 'next/image';
 const Footer: FC = () => {
   return (
     <section className="py-20">
-      <footer>
+      <footer data-testid="footer">
         <ul className="flex items-center justify-center gap-10">
           {developerData.map((value) => (
             <li key={value.id}>
@@ -15,7 +15,11 @@ const Footer: FC = () => {
             </li>
           ))}
           <li>
-            <Link target="blank" href={'https://rs.school/'}>
+            <Link
+              data-testid="rs-school-link"
+              target="blank"
+              href={'https://rs.school/'}
+            >
               <Image
                 alt="rss-logo"
                 src={'/icons/rss-logo.svg'}

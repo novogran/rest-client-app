@@ -4,7 +4,8 @@ export const developerData: DeveloperData[] = [
   {
     id: 1,
     name: 'Daniil Sudorgin',
-    description: '',
+    // TODO: need to replace description to something more appropriate
+    description: 'some text',
     image: '/images/danil.jpg',
     github: 'https://github.com/Zilusion',
   },

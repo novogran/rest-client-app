@@ -24,6 +24,7 @@
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@radix-ui/react-dialog": "^1.1.15",
+    "@testing-library/user-event": "^14.6.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.542.0",
