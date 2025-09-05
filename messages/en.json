@@ -1,0 +1,16 @@
+{
+  "Metadata": {
+    "title": "REST Client App",
+    "description": "The final project for the course"
+  },
+  "HomePage": {
+    "title": "Welcome!",
+    "subtitle": "This is a light-weight version of Postman."
+  },
+  "Common": {
+    "LanguageSwitcher": {
+      "label": "Choose language",
+      "placeholder": "Select language"
+    }
+  }
+}

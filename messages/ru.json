@@ -1,0 +1,16 @@
+{
+  "Metadata": {
+    "title": "REST-клиент",
+    "description": "Финальный проект для курса"
+  },
+  "HomePage": {
+    "title": "Добро пожаловать!",
+    "subtitle": "Это легковесная версия Postman."
+  },
+  "Common": {
+    "LanguageSwitcher": {
+      "label": "Выберите язык",
+      "placeholder": "Выберите язык"
+    }
+  }
+}
