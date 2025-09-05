@@ -1,6 +1,7 @@
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
+import { Button } from '../ui/button';
 
 const NotFound: FC = () => {
   const t = useTranslations('NotFound');
@@ -25,12 +26,12 @@ const NotFound: FC = () => {
         <p className="text-[var(--color-text)] text-lg leading-relaxed mb-6">
           {t('message')}
         </p>
-        <Link
-          href="/"
-          className="inline-block bg-blue-500 text-[var(--background)] border-none px-6 py-3 rounded-lg cursor-pointer text-base font-bold no-underline transition-colors duration-300 hover:bg-blue-600 mt-4"
+        <Button
+          className="px-6 py-3 rounded-lg text-base bg-blue-500 transition-colors duration-300 hover:bg-blue-600 mt-4"
+          asChild
         >
-          {t('returnLink')}
-        </Link>
+          <Link href="/">{t('returnLink')}</Link>
+        </Button>
       </div>
     </div>
   );
