@@ -9,14 +9,14 @@ vi.mock('@/components/NotFound', () => ({
 }));
 
 describe('NotFoundPage', () => {
-  it('должен корректно отображать страницу 404', () => {
+  it('should render 404 page correctly', () => {
     render(<NotFoundPage />);
 
     expect(screen.getByTestId('not-found-mock')).toBeInTheDocument();
     expect(screen.getByText('Not Found Mock')).toBeInTheDocument();
   });
 
-  it('должен использовать компонент NotFound без пропсов', () => {
+  it('should use NotFound component without props', () => {
     render(<NotFoundPage />);
 
     expect(NotFound).toHaveBeenCalledTimes(1);
@@ -26,7 +26,7 @@ describe('NotFoundPage', () => {
     expect(calls[0][0]).toEqual({});
   });
 
-  it('должен содержать только компонент NotFound', () => {
+  it('should contain only NotFound component', () => {
     const { container } = render(<NotFoundPage />);
 
     expect(container.childElementCount).toBe(1);
