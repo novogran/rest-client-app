@@ -25,25 +25,25 @@ describe('NotFound', () => {
     render(<NotFound />);
   });
 
-  it('отображает сообщение 404', () => {
+  it('displays 404 message', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
       '404 - Page Not Found'
     );
   });
 
-  it('отображает грустный смайлик с правильным aria-label', () => {
+  it('displays sad emoji with correct aria-label', () => {
     const emoji = screen.getByRole('img', { name: 'Sad Emoji' });
     expect(emoji).toBeInTheDocument();
     expect(emoji).toHaveTextContent('😢');
   });
 
-  it('показывает описательное сообщение', () => {
+  it('shows descriptive message', () => {
     expect(
       screen.getByText('The page you are looking for was not found!')
     ).toBeInTheDocument();
   });
 
-  it('содержит рабочую домашнюю ссылку', () => {
+  it('contains working home link', () => {
     const homeLink = screen.getByRole('link', {
       name: 'Return to Main Page',
     });
@@ -52,7 +52,7 @@ describe('NotFound', () => {
     expect(homeLink).toHaveTextContent('Return to Main Page');
   });
 
-  it('имеет правильную структуру контейнеров', () => {
+  it('has correct container structure', () => {
     const container = screen.getByTestId('not-found-container');
     const content = screen.getByTestId('not-found-content');
 
@@ -60,7 +60,7 @@ describe('NotFound', () => {
     expect(content).toBeInTheDocument();
   });
 
-  it('анимация bounce применяется к смайлику', () => {
+  it('applies bounce animation to the emoji', () => {
     const emoji = screen.getByRole('img', { name: 'Sad Emoji' });
     expect(emoji).toHaveClass('animate-bounce');
   });
