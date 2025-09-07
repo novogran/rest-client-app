@@ -1,15 +1,15 @@
-import { LanguageSwitcher } from '@/components/shared/language-switcher';
+import { Header } from '@/components/Header';
 import { useTranslations } from 'next-intl';
+import { StoreProvider } from '../../components/StoreProvider/StoreProvider';
 
 export default function LocaleRootPage() {
   const t = useTranslations('HomePage');
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center p-4">
-      <div className="absolute top-4 right-4 md:top-6 md:right-6">
-        <LanguageSwitcher />
-      </div>
-
+    <div className="relative flex min-h-screen flex-col items-center p-4">
+      <StoreProvider>
+        <Header />
+      </StoreProvider>
       <div className="text-center">
         <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50 sm:text-6xl">
           {t('title')}

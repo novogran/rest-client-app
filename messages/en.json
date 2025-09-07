@@ -12,5 +12,17 @@
       "label": "Choose language",
       "placeholder": "Select language"
     }
+  },
+  "NotFound": {
+    "sadEmoji": "Sad Emoji",
+    "title": "404 - Page Not Found",
+    "message": "The Page you are looking for was not found!",
+    "returnLink": "Return to Main Page"
+  },
+  "Header": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "logo": "App logo"
   }
 }
