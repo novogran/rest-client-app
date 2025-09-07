@@ -3,8 +3,10 @@ import DeveloperInfo from '@/components/DeveloperInfo';
 import { developerData } from '@/data/developerData';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 const Footer: FC = () => {
+  const t = useTranslations('Footer');
   return (
     <section className="py-20">
       <footer data-testid="footer">
@@ -29,8 +31,8 @@ const Footer: FC = () => {
             </Link>
           </li>
         </ul>
-        <div className="text-muted-foreground mt-10 flex flex-column gap-4 border-t pt-8 text-sm font-medium md:flex-row-reverse md:items-center">
-          <p>© 2025 REST API client. All rights reserved.</p>
+        <div className="text-muted-foreground mr-10 mt-10 flex flex-column gap-4 border-t pt-8 text-sm font-medium md:flex-row-reverse md:items-center">
+          <p>{t('copyright')}</p>
         </div>
       </footer>
     </section>

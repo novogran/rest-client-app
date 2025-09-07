@@ -10,10 +10,12 @@ import { DeveloperData } from '@/types/developerInfo.types';
 import { FC } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 const DeveloperInfo: FC<{ developerData: DeveloperData }> = ({
   developerData,
 }) => {
+  const t = useTranslations();
   return (
     <Dialog>
       <DialogTrigger>
@@ -36,7 +38,7 @@ const DeveloperInfo: FC<{ developerData: DeveloperData }> = ({
               alt="developer avatar"
             />
             <span className="flex gap-4 items-center">
-              {developerData.name}
+              {t(`developers.${developerData.id}.name`)}
               <Link href={developerData.github} target="blank">
                 <Image
                   src={'/icons/github-logo.png'}
@@ -47,7 +49,9 @@ const DeveloperInfo: FC<{ developerData: DeveloperData }> = ({
               </Link>
             </span>
           </DialogTitle>
-          <DialogDescription>{developerData.description}</DialogDescription>
+          <DialogDescription>
+            {t(`developers.${developerData.id}.description`)}
+          </DialogDescription>
         </DialogHeader>
       </DialogContent>
     </Dialog>
