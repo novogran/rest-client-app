@@ -36,7 +36,7 @@ export const Header = () => {
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
         <div className="flex items-center">
-          <Link href="/">
+          <Link data-testid="logo-link" href="/">
             <Image
               src="/rest-client-app-logo.png"
               width={isScrolled ? 120 : 150}
