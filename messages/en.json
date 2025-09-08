@@ -1,4 +1,7 @@
 {
+  "Error": {
+    "reset": "Reset"
+  },
   "Footer": {
     "copyright": "© 2025 REST API client. All rights reserved."
   },

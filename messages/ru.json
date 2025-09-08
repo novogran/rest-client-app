@@ -1,4 +1,7 @@
 {
+  "Error": {
+    "reset": "Перезагрузить"
+  },
   "Footer": {
     "copyright": "© 2025 REST API client. Все права защищены."
   },
