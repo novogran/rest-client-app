@@ -4,7 +4,6 @@ import { useTranslations } from 'next-intl';
 
 export default function LocaleRootPage() {
   const t = useTranslations('HomePage');
-
   return (
     <div className="min-h-screen">
       <div className="relative flex flex-col items-center justify-center p-4">

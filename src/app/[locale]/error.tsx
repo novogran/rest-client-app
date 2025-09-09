@@ -23,7 +23,12 @@ const Error: FC<{
         </CardHeader>
         <CardContent>{error.message}</CardContent>
         <CardFooter>
-          <Button onClick={reset}>{t('reset')}</Button>
+          <Button
+            className="px-6 py-3 rounded-lg text-base bg-blue-500 transition-colors duration-300 hover:bg-blue-600 mt-4"
+            onClick={reset}
+          >
+            {t('reset')}
+          </Button>
         </CardFooter>
       </Card>
     </div>
