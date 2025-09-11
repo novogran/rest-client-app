@@ -1,10 +1,10 @@
 import { Header } from '@/components/Header';
+import Footer from '@/components/Footer';
 import { useTranslations } from 'next-intl';
 import { StoreProvider } from '../../components/StoreProvider/StoreProvider';
 
 export default function LocaleRootPage() {
   const t = useTranslations('HomePage');
-
   return (
     <div className="relative flex min-h-screen flex-col items-center p-4">
       <StoreProvider>
@@ -18,6 +18,7 @@ export default function LocaleRootPage() {
           {t('subtitle')}
         </p>
       </div>
+      <Footer />
     </div>
   );
 }
