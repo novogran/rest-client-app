@@ -8,8 +8,11 @@ import { useTranslations } from 'next-intl';
 const Footer: FC = () => {
   const t = useTranslations('Footer');
   return (
-    <section className="py-20">
-      <footer data-testid="footer">
+    <footer
+      className="border-t bg-slate-50 dark:bg-slate-900"
+      data-testid="footer"
+    >
+      <div className="container mx-auto px-4 py-8">
         <ul className="flex items-center justify-center gap-10">
           {developerData.map((value) => (
             <li key={value.id}>
@@ -19,7 +22,8 @@ const Footer: FC = () => {
           <li>
             <Link
               data-testid="rs-school-link"
-              target="blank"
+              target="_blank"
+              rel="noopener noreferrer"
               href={'https://rs.school/'}
             >
               <Image
@@ -31,11 +35,11 @@ const Footer: FC = () => {
             </Link>
           </li>
         </ul>
-        <div className="text-muted-foreground mr-10 mt-10 flex flex-column gap-4 border-t pt-8 text-sm font-medium md:flex-row-reverse md:items-center">
+        <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
           <p>{t('copyright')}</p>
         </div>
-      </footer>
-    </section>
+      </div>
+    </footer>
   );
 };
 

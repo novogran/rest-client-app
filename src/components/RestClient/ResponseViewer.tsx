@@ -2,7 +2,7 @@
 import { useSelector } from 'react-redux';
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
-import { RootState } from '@/lib/store';
+import { RootState } from '@/store/store';
 import { Loader2 } from 'lucide-react';
 
 export function ResponseViewer() {

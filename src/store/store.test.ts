@@ -1,20 +1,27 @@
 import { describe, it, expect } from 'vitest';
-import { store } from './store';
-import type { RootState, AppDispatch } from './store';
+import { makeStore, RootState, AppDispatch } from './store';
 
-describe('store', () => {
-  it('should create store with authorization reducer', () => {
+describe('Redux Store', () => {
+  it('should create a store with all reducers', () => {
+    const store = makeStore();
+    const state = store.getState();
+
+    expect(state.authorization).toBeDefined();
+    expect(state.restClient).toBeDefined();
+  });
+
+  it('should have correct initial state for authorization', () => {
+    const store = makeStore();
     const state = store.getState();
     expect(state.authorization.value).toBe(false);
   });
 
-  it('should have correct RootState type', () => {
+  it('should have correct types for RootState and AppDispatch', () => {
+    const store = makeStore();
     const state: RootState = store.getState();
-    expect(state.authorization.value).toBeDefined();
-  });
-
-  it('should have correct AppDispatch type', () => {
     const dispatch: AppDispatch = store.dispatch;
+
+    expect(typeof state).toBe('object');
     expect(typeof dispatch).toBe('function');
   });
 });

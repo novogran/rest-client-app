@@ -81,31 +81,48 @@ describe('Header', () => {
     expect(screen.getByText('signOut')).toBeInTheDocument();
   });
 
-  it('dispatches signIn action when sign in button clicked', () => {
+  it('renders a link to the sign-in page when not authorized', () => {
     mockUseAppSelector.mockReturnValue(false);
     render(<Header />);
-
-    fireEvent.click(screen.getByText('signIn'));
-    expect(mockDispatch).toHaveBeenCalledWith(mockSignIn());
+    const signInLink = screen.getByRole('link', { name: 'signIn' });
+    expect(signInLink).toBeInTheDocument();
+    expect(signInLink).toHaveAttribute('href', '/signIn');
   });
 
   it('dispatches signOut action when sign out button clicked', () => {
     mockUseAppSelector.mockReturnValue(true);
     render(<Header />);
 
-    fireEvent.click(screen.getByText('signOut'));
-    expect(mockDispatch).toHaveBeenCalledWith(mockSignOut());
+    const signOutButton = screen.getByText('signOut');
+    if (!signOutButton) throw new Error('Sign Out button not found');
+
+    fireEvent.click(signOutButton);
+    expect(mockDispatch).toHaveBeenCalledWith(signOut());
   });
 
-  it('applies correct styles when scrolled', () => {
+  it('applies correct styles when scrolled', async () => {
     render(<Header />);
 
-    Object.defineProperty(window, 'scrollY', { value: 20, writable: true });
-    fireEvent.scroll(window);
+    fireEvent.scroll(window, { target: { scrollY: 100 } });
+    const header = await screen.findByRole('banner');
 
-    const header = screen.getByRole('banner');
-    expect(header).toHaveClass('bg-blue-500/95');
+    expect(header).toHaveClass('bg-primary/95');
     expect(header).toHaveClass('backdrop-blur-md');
     expect(header).toHaveClass('shadow-lg');
+  });
+
+  it('changes button size on scroll when authorized', async () => {
+    mockUseAppSelector.mockReturnValue(true);
+    render(<Header />);
+
+    const signOutButton = screen.getByRole('button', { name: 'signOut' });
+    expect(signOutButton).toHaveClass('h-9');
+
+    fireEvent.scroll(window, { target: { scrollY: 100 } });
+    const updatedSignOutButton = await screen.findByRole('button', {
+      name: 'signOut',
+    });
+
+    expect(updatedSignOutButton).toHaveClass('h-8');
   });
 });

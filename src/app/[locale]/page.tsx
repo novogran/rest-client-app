@@ -1,12 +1,9 @@
-import { Header } from '@/components/Header';
-import Footer from '@/components/Footer';
 import { useTranslations } from 'next-intl';
 
-export default function LocaleRootPage() {
+export default function RootPage() {
   const t = useTranslations('HomePage');
   return (
-    <div className="relative flex min-h-screen flex-col items-center p-4">
-      <Header />
+    <div className="container mx-auto px-4 py-16 flex items-center justify-center">
       <div className="text-center">
         <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50 sm:text-6xl">
           {t('title')}
@@ -15,7 +12,6 @@ export default function LocaleRootPage() {
           {t('subtitle')}
         </p>
       </div>
-      <Footer />
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from '@/i18n/navigation';
-import { AppDispatch, RootState } from '@/lib/store';
+import { AppDispatch, RootState } from '@/store/store';
 import { setMethod, setUrl, executeRequest } from './restClientSlice';
 import { encode } from '@/lib/url-encoding';
 import { MethodSelector } from './MethodSelector';

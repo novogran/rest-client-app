@@ -1,6 +1,6 @@
 'use client';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/lib/store';
+import { AppDispatch, RootState } from '@/store/store';
 import { addHeader, removeHeader, updateHeader } from './restClientSlice';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

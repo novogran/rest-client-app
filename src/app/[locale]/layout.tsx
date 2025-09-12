@@ -10,6 +10,8 @@ import {
 import { notFound } from 'next/navigation';
 import StoreProvider from '../../components/StoreProvider/StoreProvider';
 import { Toaster } from '@/components/ui/sonner';
+import { Header } from '@/components/Header';
+import Footer from '@/components/Footer';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -48,7 +50,11 @@ export default async function MainLayout({ children, params }: Props) {
       <body>
         <StoreProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
-            {children}
+            <div className="relative flex min-h-screen flex-col">
+              <Header />
+              <main className="flex-grow">{children}</main>
+              <Footer />
+            </div>
             <Toaster />
           </NextIntlClientProvider>
         </StoreProvider>

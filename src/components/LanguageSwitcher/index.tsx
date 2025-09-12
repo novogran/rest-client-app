@@ -12,7 +12,7 @@ import { GlobeIcon } from 'lucide-react';
 import { useLanguageSwitcher } from './useLanguageSwitcher';
 import { useTranslations } from 'next-intl';
 
-export function LanguageSwitcher() {
+export function LanguageSwitcher({ size = 'sm' }: { size?: 'sm' | 'default' }) {
   const t = useTranslations('Common.LanguageSwitcher');
   const { locale, isPending, onSelectChange } = useLanguageSwitcher();
 
@@ -23,8 +23,9 @@ export function LanguageSwitcher() {
       disabled={isPending}
     >
       <SelectTrigger
-        className="w-[80px] transition-all duration-300 bg-white text-blue-600 hover:bg-blue-50 cursor-pointer"
+        className="w-[80px] transition-all duration-300 bg-background text-foreground cursor-pointer"
         aria-label={t('label')}
+        size={size}
       >
         <div className="flex items-center gap-2">
           <GlobeIcon className="h-4 w-4 text-slate-500" />
