@@ -8,7 +8,7 @@ import {
   setRequestLocale,
 } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import StoreProvider from '../../components/StoreProvider/StoreProvider';
+import StoreProvider from '../../components/StoreProvider';
 import { Toaster } from '@/components/ui/sonner';
 import { Header } from '@/components/Header';
 import Footer from '@/components/Footer';

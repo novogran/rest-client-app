@@ -52,6 +52,7 @@ export function HeadersEditor() {
               variant="ghost"
               size="icon"
               onClick={() => dispatch(removeHeader(header.id))}
+              data-testid="delete-header-button"
             >
               <Trash2 className="h-4 w-4" />
             </Button>

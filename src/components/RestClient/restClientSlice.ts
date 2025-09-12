@@ -20,7 +20,7 @@ interface ResponseState {
   duration: number | null;
 }
 
-interface RestClientState {
+export interface RestClientState {
   method: HttpMethod;
   url: string;
   headers: Header[];
