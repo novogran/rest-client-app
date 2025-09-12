@@ -1,8 +1,0 @@
-{
-  "NotFound": {
-    "sadEmoji": "Sad Emoji",
-    "title": "404 - Page Not Found",
-    "message": "The Page you are looking for was not found!",
-    "returnLink": "Return to Main Page"
-  }
-}

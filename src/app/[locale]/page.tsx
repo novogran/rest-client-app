@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import { LanguageSwitcher } from '@/components/shared/language-switcher';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useTranslations } from 'next-intl';
 
 export default function LocaleRootPage() {

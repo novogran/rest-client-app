@@ -24,6 +24,12 @@
     "title": "Welcome!",
     "subtitle": "This is a light-weight version of Postman."
   },
+  "NotFound": {
+    "sadEmoji": "Sad Emoji",
+    "title": "404 - Page Not Found",
+    "message": "The Page you are looking for was not found!",
+    "returnLink": "Return to Main Page"
+  },
   "Common": {
     "LanguageSwitcher": {
       "label": "Choose language",
