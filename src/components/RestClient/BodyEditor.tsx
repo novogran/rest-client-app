@@ -6,32 +6,34 @@ import { setBody } from './restClientSlice';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { AppDispatch, RootState } from '@/store/store';
+import { useTranslations } from 'next-intl';
 
 export function BodyEditor() {
+  const t = useTranslations('RestClient');
   const dispatch: AppDispatch = useDispatch();
   const body = useSelector((state: RootState) => state.restClient.body);
 
   const handlePrettify = () => {
     try {
       if (!body.trim()) {
-        toast.info('Nothing to prettify.');
+        toast.info(t('prettifyInfo'));
         return;
       }
       const parsedJson = JSON.parse(body);
       const prettyJson = JSON.stringify(parsedJson, null, 2);
       dispatch(setBody(prettyJson));
-      toast.success('JSON successfully prettified!');
+      toast.success(t('prettifySuccess'));
     } catch {
-      toast.error('Invalid JSON. Cannot prettify.');
+      toast.error(t('prettifyError'));
     }
   };
 
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold">Body</h3>
+        <h3 className="font-semibold">{t('bodyTitle')}</h3>
         <Button variant="outline" size="sm" onClick={handlePrettify}>
-          Prettify
+          {t('prettifyButton')}
         </Button>
       </div>
       <div className="rounded-md border">

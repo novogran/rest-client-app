@@ -6,21 +6,23 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export function HeadersEditor() {
+  const t = useTranslations('RestClient');
   const dispatch: AppDispatch = useDispatch();
   const headers = useSelector((state: RootState) => state.restClient.headers);
 
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold">Headers</h3>
+        <h3 className="font-semibold">{t('headersTitle')}</h3>
         <Button
           variant="outline"
           size="sm"
           onClick={() => dispatch(addHeader())}
         >
-          Add Header
+          {t('addHeaderButton')}
         </Button>
       </div>
       <div className="space-y-2 rounded-md border p-2">
@@ -33,14 +35,14 @@ export function HeadersEditor() {
               }
             />
             <Input
-              placeholder="Key"
+              placeholder={t('headerKeyPlaceholder')}
               value={header.key}
               onChange={(e) =>
                 dispatch(updateHeader({ id: header.id, key: e.target.value }))
               }
             />
             <Input
-              placeholder="Value"
+              placeholder={t('headerValuePlaceholder')}
               value={header.value}
               onChange={(e) =>
                 dispatch(updateHeader({ id: header.id, value: e.target.value }))
@@ -57,7 +59,7 @@ export function HeadersEditor() {
         ))}
         {headers.length === 0 && (
           <p className="text-sm text-muted-foreground p-2 text-center">
-            No headers added.
+            {t('noHeadersMessage')}
           </p>
         )}
       </div>

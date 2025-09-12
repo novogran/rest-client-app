@@ -44,5 +44,29 @@
     "signUp": "Зарегистрироваться",
     "signOut": "Выйти",
     "logo": "Логотип приложения"
+  },
+  "RestClient": {
+    "title": "REST-клиент",
+    "sendButton": "Отправить",
+    "urlPlaceholder": "https://api.example.com",
+    "methodPlaceholder": "Метод",
+    "headersTitle": "Заголовки",
+    "addHeaderButton": "Добавить заголовок",
+    "headerKeyPlaceholder": "Ключ",
+    "headerValuePlaceholder": "Значение",
+    "noHeadersMessage": "Заголовки не добавлены.",
+    "codeTitle": "Код",
+    "noCodeMessage": "Введите URL для генерации фрагмента кода.",
+    "codeGenerationError": "Произошла ошибка при генерации фрагмента кода.",
+    "bodyTitle": "Тело запроса",
+    "prettifyButton": "Отформатировать",
+    "responseTitle": "Ответ",
+    "errorMessageTitle": "Ошибка",
+    "noResponseMessage": "Отправьте запрос, чтобы увидеть ответ здесь.",
+    "statusLabel": "Статус",
+    "timeLabel": "Время",
+    "prettifySuccess": "JSON успешно отформатирован!",
+    "prettifyInfo": "Нечего форматировать.",
+    "prettifyError": "Невалидный JSON. Невозможно отформатировать."
   }
 }

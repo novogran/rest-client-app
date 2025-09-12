@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useTranslations } from 'next-intl';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 interface MethodSelectorProps {
@@ -15,12 +16,13 @@ interface MethodSelectorProps {
 }
 
 export function MethodSelector({ value, onChange }: MethodSelectorProps) {
+  const t = useTranslations('RestClient');
   const methods: HttpMethod[] = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
 
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger className="w-[120px]">
-        <SelectValue placeholder="Method" />
+        <SelectValue placeholder={t('methodPlaceholder')} />
       </SelectTrigger>
       <SelectContent>
         {methods.map((method) => (

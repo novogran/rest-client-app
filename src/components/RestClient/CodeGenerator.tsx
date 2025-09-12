@@ -15,6 +15,7 @@ import { go } from '@codemirror/lang-go';
 import { cpp } from '@codemirror/lang-cpp';
 import { php } from '@codemirror/lang-php';
 import { RootState } from '@/store/store';
+import { useTranslations } from 'next-intl';
 
 const targets = [
   { key: 'shell_curl', title: 'cURL', lang: StreamLanguage.define(shell) },
@@ -34,6 +35,7 @@ const targets = [
 ];
 
 export function CodeGenerator() {
+  const t = useTranslations('RestClient');
   const [selectedTarget, setSelectedTarget] = useState(targets[0].key);
 
   const requestState = useSelector((state: RootState) => {
@@ -43,7 +45,7 @@ export function CodeGenerator() {
 
   const codeSnippet = useMemo(() => {
     if (!requestState.url) {
-      return 'Please enter a URL to generate a code snippet.';
+      return t('noCodeMessage');
     }
     try {
       const har: Har = {
@@ -104,11 +106,10 @@ export function CodeGenerator() {
       );
 
       return result || 'Could not generate snippet for this target.';
-    } catch (error) {
-      console.error('Failed to generate code snippet:', error);
-      return 'An error occurred while generating the code snippet.';
+    } catch {
+      return t('codeGenerationError');
     }
-  }, [requestState, selectedTarget]);
+  }, [requestState, selectedTarget, t]);
 
   const selectedLangExtension = targets.find(
     (t) => t.key === selectedTarget
@@ -116,7 +117,7 @@ export function CodeGenerator() {
 
   return (
     <div className="space-y-2">
-      <h3 className="font-semibold">Code</h3>
+      <h3 className="font-semibold">{t('codeTitle')}</h3>
       <div className="rounded-md border">
         <Tabs
           value={selectedTarget}

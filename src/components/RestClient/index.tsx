@@ -13,8 +13,10 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { CodeGenerator } from './CodeGenerator';
+import { useTranslations } from 'next-intl';
 
 export function RestClientPage() {
+  const t = useTranslations('RestClient');
   const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
 
@@ -46,7 +48,7 @@ export function RestClientPage() {
 
   return (
     <div className="p-4 space-y-6 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold">REST Client</h1>
+      <h1 className="text-3xl font-bold">{t('title')}</h1>
       <div className="space-y-4">
         <div className="flex gap-2">
           <MethodSelector
@@ -56,9 +58,10 @@ export function RestClientPage() {
           <Input
             value={url}
             onChange={(e) => dispatch(setUrl(e.target.value))}
+            placeholder={t('urlPlaceholder')}
           />
           <Button onClick={handleSendRequest} disabled={response.loading}>
-            Send
+            {t('sendButton')}
           </Button>
         </div>
         <HeadersEditor />
