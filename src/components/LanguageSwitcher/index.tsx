@@ -22,7 +22,10 @@ export function LanguageSwitcher() {
       defaultValue={locale}
       disabled={isPending}
     >
-      <SelectTrigger className="w-[80px]" aria-label={t('label')}>
+      <SelectTrigger
+        className="w-[80px] transition-all duration-300 bg-white text-blue-600 hover:bg-blue-50 cursor-pointer"
+        aria-label={t('label')}
+      >
         <div className="flex items-center gap-2">
           <GlobeIcon className="h-4 w-4 text-slate-500" />
           <SelectValue placeholder={t('placeholder')} />
