@@ -4,11 +4,11 @@ import { useEffect, use, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
-import { AppDispatch } from '@/lib/store';
 import { initializeFromUrl } from '@/components/RestClient/restClientSlice';
 import { decode } from '@/lib/url-encoding';
 import { nanoid } from 'nanoid';
 import { Skeleton } from '@/components/ui/skeleton';
+import { AppDispatch } from '@/store/store';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 type Header = { id: string; key: string; value: string; enabled: boolean };

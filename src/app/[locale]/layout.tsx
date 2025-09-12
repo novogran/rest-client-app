@@ -8,7 +8,7 @@ import {
   setRequestLocale,
 } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import StoreProvider from '../StoreProvider';
+import StoreProvider from '../../components/StoreProvider/StoreProvider';
 import { Toaster } from '@/components/ui/sonner';
 
 export function generateStaticParams() {

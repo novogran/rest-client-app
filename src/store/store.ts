@@ -1,11 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
+
 import authorizationReducer from './authorizationSlice';
+import { restClientSlice } from '@/components/RestClient/restClientSlice';
 
-export const store = configureStore({
-  reducer: {
-    authorization: authorizationReducer,
-  },
-});
+export const makeStore = () => {
+  return configureStore({
+    reducer: {
+      authorization: authorizationReducer,
+      restClient: restClientSlice.reducer,
+    },
+  });
+};
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type AppStore = ReturnType<typeof makeStore>;
+export type RootState = ReturnType<AppStore['getState']>;
+export type AppDispatch = AppStore['dispatch'];

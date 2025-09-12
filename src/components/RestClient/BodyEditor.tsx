@@ -2,10 +2,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
-import { AppDispatch, RootState } from '@/lib/store';
 import { setBody } from './restClientSlice';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { AppDispatch, RootState } from '@/store/store';
 
 export function BodyEditor() {
   const dispatch: AppDispatch = useDispatch();
@@ -21,7 +21,7 @@ export function BodyEditor() {
       const prettyJson = JSON.stringify(parsedJson, null, 2);
       dispatch(setBody(prettyJson));
       toast.success('JSON successfully prettified!');
-    } catch (error) {
+    } catch {
       toast.error('Invalid JSON. Cannot prettify.');
     }
   };

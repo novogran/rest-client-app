@@ -4,11 +4,8 @@ import { useMemo, useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { HTTPSnippet } from 'httpsnippet';
 import type { Har } from 'har-format';
-import { RootState } from '@/lib/store';
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import CodeMirror from '@uiw/react-codemirror';
-
 import { StreamLanguage } from '@codemirror/language';
 import { shell } from '@codemirror/legacy-modes/mode/shell';
 import { javascript } from '@codemirror/lang-javascript';
@@ -17,6 +14,7 @@ import { java } from '@codemirror/lang-java';
 import { go } from '@codemirror/lang-go';
 import { cpp } from '@codemirror/lang-cpp';
 import { php } from '@codemirror/lang-php';
+import { RootState } from '@/store/store';
 
 const targets = [
   { key: 'shell_curl', title: 'cURL', lang: StreamLanguage.define(shell) },
