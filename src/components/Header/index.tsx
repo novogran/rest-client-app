@@ -3,18 +3,18 @@
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { signIn, signOut } from '@/store/authorizationSlice';
 import { LanguageSwitcher } from '../shared/language-switcher';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { getCurrentSession, logout } from '@/app/actions/auth';
+import { useRouter, usePathname } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 
 export const Header = () => {
   const t = useTranslations('Header');
-  const authorization = useAppSelector((state) => state.authorization.value);
-  const dispatch = useAppDispatch();
-
+  const [user, setUser] = useState<unknown>(null);
+  const router = useRouter();
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -24,6 +24,25 @@ export const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userToken = await getCurrentSession();
+        setUser(userToken);
+      } catch (error) {
+        if (error instanceof Error) setUser(null);
+      }
+    };
+
+    fetchUser();
+  }, [pathname]);
+
+  const handleLogout = async () => {
+    await logout();
+    setUser(null);
+    router.replace('/');
+  };
 
   return (
     <header
@@ -49,40 +68,37 @@ export const Header = () => {
 
         <nav className="flex items-center gap-3">
           <LanguageSwitcher />
-          {authorization ? (
+          {user ? (
             <Button
               size={isScrolled ? 'default' : 'lg'}
               className={
                 'transition-all duration-300 bg-white text-blue-600 hover:bg-blue-50'
               }
-              onClick={() => {
-                dispatch(signOut());
-              }}
+              onClick={handleLogout}
             >
-              <Link href="/">{t('signOut')}</Link>
+              {t('signOut')}
             </Button>
           ) : (
             <>
               <Button
                 size={isScrolled ? 'default' : 'lg'}
                 className="transition-all duration-300 cursor-pointer bg-white text-blue-600 hover:bg-blue-50"
-                onClick={() => {
-                  dispatch(signIn());
-                }}
+                onClick={() => router.push('/auth/signIn')}
               >
-                <Link href="/signIn">{t('signIn')}</Link>
+                {t('signIn')}
               </Button>
               <Button
                 variant={'secondary'}
                 size={isScrolled ? 'default' : 'lg'}
                 className={cn(
-                  'transition-all duration-300',
+                  'transition-all duration-300 cursor-pointer',
                   isScrolled
                     ? 'bg-blue-500/95 border-white text-white hover:bg-white hover:text-blue-600'
                     : 'bg-blue-600 text-white hover:bg-blue-700'
                 )}
+                onClick={() => router.push('/auth/signUp')}
               >
-                <Link href="/signIn_signUp">{t('signUp')}</Link>
+                {t('signUp')}
               </Button>
             </>
           )}
