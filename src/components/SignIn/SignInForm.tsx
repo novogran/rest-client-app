@@ -44,6 +44,8 @@ export default function SignInForm() {
       email: '',
       password: '',
     },
+    mode: 'onChange',
+    reValidateMode: 'onChange',
   });
 
   useEffect(() => {

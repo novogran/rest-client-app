@@ -47,6 +47,8 @@ export default function SignUpForm() {
       password: '',
       confirmPassword: '',
     },
+    mode: 'onChange',
+    reValidateMode: 'onChange',
   });
 
   useEffect(() => {
