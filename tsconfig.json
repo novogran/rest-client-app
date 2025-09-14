@@ -34,7 +34,9 @@
     "src/**/*.tsx",
     "vitest.setup.ts",
     ".next/types/**/*.ts",
-    "commitlint.config.ts"
+    "commitlint.config.ts",
+    "src/components/Header/Header.test.tsxasdas",
+    "src/components/SignIn/SignInForm.test.tsx1111111"
   ],
   "exclude": ["node_modules"]
 }
