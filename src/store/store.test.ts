@@ -5,15 +5,7 @@ describe('Redux Store', () => {
   it('should create a store with all reducers', () => {
     const store = makeStore();
     const state = store.getState();
-
-    expect(state.authorization).toBeDefined();
     expect(state.restClient).toBeDefined();
-  });
-
-  it('should have correct initial state for authorization', () => {
-    const store = makeStore();
-    const state = store.getState();
-    expect(state.authorization.value).toBe(false);
   });
 
   it('should have correct types for RootState and AppDispatch', () => {

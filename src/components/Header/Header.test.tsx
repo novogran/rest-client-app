@@ -1,128 +1,119 @@
-import { signIn, signOut } from '@/store/authorizationSlice';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { useTranslations } from 'next-intl';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Header } from '.';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { vi } from 'vitest';
+import type { ImageProps } from 'next/image';
+import { getCurrentSession, logout } from '@/app/actions/auth';
 
-const mockRouter = { replace: vi.fn() };
+vi.mock('@/app/actions/auth', () => ({
+  getCurrentSession: vi.fn(),
+  logout: vi.fn(),
+}));
+
+const mockPush = vi.fn();
+const mockReplace = vi.fn();
 vi.mock('@/i18n/navigation', () => ({
-  useRouter: () => mockRouter,
-  usePathname: () => '/about',
+  useRouter: () => ({ push: mockPush, replace: mockReplace }),
+  usePathname: () => '/',
 }));
 
-vi.mock('@/store/hooks');
-vi.mock('next-intl');
-vi.mock('@/store/authorizationSlice');
+const mockT = vi.fn();
+vi.mock('next-intl', () => ({
+  useTranslations: () => mockT,
+}));
+
 vi.mock('next/image', () => ({
-  default: (props: {
-    src: string;
-    width: number;
-    height: number;
-    alt: string;
-    className: string;
-  }) => (
-    <img
-      src={props.src}
-      width={props.width}
-      height={props.height}
-      alt={props.alt}
-      className={props.className}
-    />
-  ),
+  default: (props: ImageProps) => {
+    const { src, alt, width, height, className } = props;
+    return (
+      <img
+        src={typeof src === 'string' ? src : ''}
+        alt={alt}
+        width={Number(width)}
+        height={Number(height)}
+        className={className}
+      />
+    );
+  },
 }));
 
-const mockDispatch = vi.fn();
-const mockUseAppSelector = vi.mocked(useAppSelector);
-const mockUseTranslations = vi.mocked(useTranslations);
-const mockSignIn = vi.mocked(signIn);
-const mockSignOut = vi.mocked(signOut);
+vi.mock('../LanguageSwitcher', () => ({
+  LanguageSwitcher: () => <div data-testid="language-switcher-mock" />,
+}));
 
-describe('Header', () => {
+const mockGetCurrentSession = vi.mocked(getCurrentSession);
+const mockLogout = vi.mocked(logout);
+
+describe('Header Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseAppSelector.mockReturnValue(false);
-
-    const mockT = vi.fn((key: string) => {
-      const translations: Record<string, string> = {
-        'Header.signIn': 'Sign In',
-        'Header.signOut': 'Sign Out',
-        'Header.signUp': 'Sign Up',
-      };
-      return translations[key] || key;
-    }) as unknown as ReturnType<typeof useTranslations>;
-
-    mockT.rich = vi.fn();
-    mockT.markup = vi.fn();
-    mockT.raw = vi.fn();
-    mockT.has = vi.fn();
-
-    mockUseTranslations.mockReturnValue(mockT);
-    vi.mocked(useAppDispatch).mockReturnValue(mockDispatch);
+    mockGetCurrentSession.mockResolvedValue(undefined);
+    mockT.mockImplementation((key: string) => key);
   });
 
-  it('renders logo with link', () => {
+  it('should render the logo and link to home', async () => {
     render(<Header />);
-    expect(screen.getByAltText('Logo')).toBeInTheDocument();
-    expect(screen.getByTestId('logo-link')).toHaveAttribute('href', '/');
+    const logo = await screen.findByAltText('Logo');
+    expect(logo).toBeInTheDocument();
+    expect(logo.closest('a')).toHaveAttribute('href', '/');
   });
 
-  it('shows sign in and sign up buttons when not authorized', () => {
-    mockUseAppSelector.mockReturnValue(false);
+  it('should show sign-in and sign-up buttons when user is not authenticated', async () => {
     render(<Header />);
-
-    expect(screen.getByText('signIn')).toBeInTheDocument();
-    expect(screen.getByText('signUp')).toBeInTheDocument();
+    expect(
+      await screen.findByRole('link', { name: /signIn/i })
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByRole('link', { name: /signUp/i })
+    ).toBeInTheDocument();
   });
 
-  it('shows sign out button when authorized', () => {
-    mockUseAppSelector.mockReturnValue(true);
+  it('should show the sign-out button when user is authenticated', async () => {
+    mockGetCurrentSession.mockResolvedValue('mock-user-session');
     render(<Header />);
-
-    expect(screen.getByText('signOut')).toBeInTheDocument();
+    expect(
+      await screen.findByRole('button', { name: /signOut/i })
+    ).toBeInTheDocument();
   });
 
-  it('renders a link to the sign-in page when not authorized', () => {
-    mockUseAppSelector.mockReturnValue(false);
+  it('should navigate to /auth/signIn on sign-in button click', async () => {
     render(<Header />);
-    const signInLink = screen.getByRole('link', { name: 'signIn' });
-    expect(signInLink).toBeInTheDocument();
-    expect(signInLink).toHaveAttribute('href', '/signIn');
+    const signInLink = await screen.findByRole('link', { name: /signIn/i });
+    fireEvent.click(signInLink);
+    expect(signInLink).toHaveAttribute('href', '/auth/signIn');
   });
 
-  it('dispatches signOut action when sign out button clicked', () => {
-    mockUseAppSelector.mockReturnValue(true);
+  it('should call logout action and redirect on sign-out button click', async () => {
+    mockGetCurrentSession.mockResolvedValue('mock-user-session');
     render(<Header />);
-
-    const signOutButton = screen.getByText('signOut');
-    if (!signOutButton) throw new Error('Sign Out button not found');
-
-    fireEvent.click(signOutButton);
-    expect(mockDispatch).toHaveBeenCalledWith(signOut());
-  });
-
-  it('applies correct styles when scrolled', async () => {
-    render(<Header />);
-
-    fireEvent.scroll(window, { target: { scrollY: 100 } });
-    const header = await screen.findByRole('banner');
-
-    expect(header).toHaveClass('bg-primary/95');
-    expect(header).toHaveClass('backdrop-blur-md');
-    expect(header).toHaveClass('shadow-lg');
-  });
-
-  it('changes button size on scroll when authorized', async () => {
-    mockUseAppSelector.mockReturnValue(true);
-    render(<Header />);
-
-    const signOutButton = screen.getByRole('button', { name: 'signOut' });
-    expect(signOutButton).toHaveClass('h-9');
-
-    fireEvent.scroll(window, { target: { scrollY: 100 } });
-    const updatedSignOutButton = await screen.findByRole('button', {
-      name: 'signOut',
+    const signOutButton = await screen.findByRole('button', {
+      name: /signOut/i,
     });
 
-    expect(updatedSignOutButton).toHaveClass('h-8');
+    fireEvent.click(signOutButton);
+
+    await waitFor(() => {
+      expect(mockLogout).toHaveBeenCalledTimes(1);
+      expect(mockReplace).toHaveBeenCalledWith('/');
+    });
+  });
+
+  it('should apply scrolled styles and change button size on scroll', async () => {
+    mockGetCurrentSession.mockResolvedValue('mock-user-session');
+    render(<Header />);
+
+    const header = await screen.findByRole('banner');
+    const signOutButton = screen.getByRole('button', { name: /signOut/i });
+
+    expect(header).not.toHaveClass('bg-primary/95');
+    expect(signOutButton).toHaveClass('h-9');
+    expect(signOutButton).not.toHaveClass('h-8');
+
+    fireEvent.scroll(window, { target: { scrollY: 100 } });
+
+    await waitFor(() => {
+      expect(header).toHaveClass('bg-primary/95');
+      expect(signOutButton).toHaveClass('h-8');
+      expect(signOutButton).not.toHaveClass('h-9');
+    });
   });
 });

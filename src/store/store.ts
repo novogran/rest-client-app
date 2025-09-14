@@ -1,12 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import authorizationReducer from './authorizationSlice';
 import { restClientSlice } from '@/components/RestClient/restClientSlice';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      authorization: authorizationReducer,
       restClient: restClientSlice.reducer,
     },
   });
