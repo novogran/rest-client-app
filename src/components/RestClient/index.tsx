@@ -5,6 +5,8 @@ import { useRouter } from '@/i18n/navigation';
 import { AppDispatch, RootState } from '@/store/store';
 import { setMethod, setUrl, executeRequest } from './restClientSlice';
 import { encode } from '@/lib/url-encoding';
+import { selectVariables } from '../Variables/variablesSlice';
+import { applyVariables } from '@/lib/variable-replacer';
 import { MethodSelector } from './MethodSelector';
 import { HeadersEditor } from './HeadersEditor';
 import { BodyEditor } from './BodyEditor';
@@ -14,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { CodeGenerator } from './CodeGenerator';
 import { useTranslations } from 'next-intl';
+import { useAppSelector } from '@/store/hooks';
 
 export function RestClientPage() {
   const t = useTranslations('RestClient');
@@ -24,15 +27,24 @@ export function RestClientPage() {
     (state: RootState) => state.restClient
   );
 
+  const variables = useAppSelector(selectVariables);
+
   const handleSendRequest = () => {
-    const encodedUrl = encode(url);
-    const encodedBody = body ? encode(body) : undefined;
+    const processedUrl = applyVariables(url, variables);
+    const processedHeaders = headers.map((h) => ({
+      ...h,
+      value: applyVariables(h.value, variables),
+    }));
+    const processedBody = applyVariables(body, variables);
+
+    const encodedUrl = encode(processedUrl);
+    const encodedBody = processedBody ? encode(processedBody) : undefined;
 
     let pathname = `/rest-client/${method}/${encodedUrl}`;
     if (encodedBody) pathname += `/${encodedBody}`;
 
     const queryParams = new URLSearchParams();
-    headers.forEach((header) => {
+    processedHeaders.forEach((header) => {
       if (header.enabled && header.key) {
         queryParams.append(header.key, header.value);
       }
@@ -43,7 +55,14 @@ export function RestClientPage() {
 
     router.push(finalPath, { scroll: false });
 
-    dispatch(executeRequest());
+    dispatch(
+      executeRequest({
+        url: processedUrl,
+        headers: processedHeaders,
+        body: processedBody,
+        method,
+      })
+    );
   };
 
   return (
