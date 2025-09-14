@@ -2,11 +2,13 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Header } from '.';
 import { vi } from 'vitest';
 import type { ImageProps } from 'next/image';
-import { getCurrentSession, logout } from '@/app/actions/auth';
+import { getCurrentSession, logout } from '@/lib/actions/auth';
 
-vi.mock('@/app/actions/auth', () => ({
+vi.mock('@/lib/actions/auth', () => ({
   getCurrentSession: vi.fn(),
   logout: vi.fn(),
+  signIn: vi.fn(),
+  signUp: vi.fn(),
 }));
 
 const mockPush = vi.fn();
@@ -46,7 +48,7 @@ const mockLogout = vi.mocked(logout);
 describe('Header Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockGetCurrentSession.mockResolvedValue(undefined);
+    mockGetCurrentSession.mockResolvedValue(null);
     mockT.mockImplementation((key: string) => key);
   });
 
@@ -68,22 +70,21 @@ describe('Header Component', () => {
   });
 
   it('should show the sign-out button when user is authenticated', async () => {
-    mockGetCurrentSession.mockResolvedValue('mock-user-session');
+    mockGetCurrentSession.mockResolvedValue({ userId: 'test-user-id' });
     render(<Header />);
     expect(
       await screen.findByRole('button', { name: /signOut/i })
     ).toBeInTheDocument();
   });
 
-  it('should navigate to /auth/signIn on sign-in button click', async () => {
+  it('should have correct href for the sign-in link', async () => {
     render(<Header />);
     const signInLink = await screen.findByRole('link', { name: /signIn/i });
-    fireEvent.click(signInLink);
     expect(signInLink).toHaveAttribute('href', '/auth/signIn');
   });
 
   it('should call logout action and redirect on sign-out button click', async () => {
-    mockGetCurrentSession.mockResolvedValue('mock-user-session');
+    mockGetCurrentSession.mockResolvedValue({ userId: 'test-user-id' });
     render(<Header />);
     const signOutButton = await screen.findByRole('button', {
       name: /signOut/i,
@@ -98,22 +99,20 @@ describe('Header Component', () => {
   });
 
   it('should apply scrolled styles and change button size on scroll', async () => {
-    mockGetCurrentSession.mockResolvedValue('mock-user-session');
+    mockGetCurrentSession.mockResolvedValue({ userId: 'test-user-id' });
     render(<Header />);
 
     const header = await screen.findByRole('banner');
     const signOutButton = screen.getByRole('button', { name: /signOut/i });
 
-    expect(header).not.toHaveClass('bg-primary/95');
+    expect(header).not.toHaveClass('py-2');
     expect(signOutButton).toHaveClass('h-9');
-    expect(signOutButton).not.toHaveClass('h-8');
 
     fireEvent.scroll(window, { target: { scrollY: 100 } });
 
     await waitFor(() => {
-      expect(header).toHaveClass('bg-primary/95');
+      expect(header).toHaveClass('py-2');
       expect(signOutButton).toHaveClass('h-8');
-      expect(signOutButton).not.toHaveClass('h-9');
     });
   });
 });

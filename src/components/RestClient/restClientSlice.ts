@@ -4,8 +4,8 @@ import {
   createAsyncThunk,
   nanoid,
 } from '@reduxjs/toolkit';
-import type { RootState } from '@/store/store';
-import { executeRequest as executeServerRequest } from './actions';
+import type { RootState } from '@/lib/store/store';
+import { executeRequest as executeServerRequest } from '../../lib/actions/restClient';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 type Header = { id: string; key: string; value: string; enabled: boolean };

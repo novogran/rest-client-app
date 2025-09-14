@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import { encode } from '@/lib/url-encoding';
-import type { HistoryEntry } from '@/app/actions/history';
+import type { HistoryEntry } from '@/lib/actions/history';
 
 function getStatusColor(status: number | null): string {
   if (status === null) return 'text-yellow-500';

@@ -1,6 +1,6 @@
 import 'server-only';
 import { cookies } from 'next/headers';
-import admin from '@/firebase/firebase-admin';
+import admin from '@/lib/firebase/admin';
 
 export async function createSession(idToken: string) {
   const expiresIn = 60 * 60 * 24 * 5 * 1000;

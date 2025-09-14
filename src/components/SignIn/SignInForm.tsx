@@ -1,6 +1,6 @@
 'use client';
 
-import { signIn } from '@/app/actions/auth';
+import { signIn } from '@/lib/actions/auth';
 import { useActionState, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { authFormSchema } from '@/lib/definitions';
+import { authFormSchema } from '@/lib/types/definitions';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';

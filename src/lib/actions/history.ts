@@ -1,6 +1,6 @@
 'use server';
 
-import { db } from '@/firebase/firebase';
+import { db } from '@/lib/firebase/client';
 import { getSession } from '@/lib/session';
 import {
   collection,

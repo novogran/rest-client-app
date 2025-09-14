@@ -1,4 +1,4 @@
-import { getHistory } from '@/app/actions/history';
+import { getHistory } from '@/lib/actions/history';
 import { getTranslations } from 'next-intl/server';
 import { HistoryList } from '@/components/History/HistoryList';
 

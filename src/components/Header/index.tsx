@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { LanguageSwitcher } from '../LanguageSwitcher';
-import { getCurrentSession, logout } from '@/app/actions/auth';
+import { getCurrentSession, logout } from '@/lib/actions/auth';
 import { useRouter, usePathname } from '@/i18n/navigation';
 
 export const Header = () => {

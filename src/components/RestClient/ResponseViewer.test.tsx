@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Provider } from 'react-redux';
-import { makeStore } from '@/store/store';
+import { makeStore } from '@/lib/store/store';
 import { ResponseViewer } from './ResponseViewer';
 import { NextIntlClientProvider } from 'next-intl';
 import messages from '../../../messages/en.json';

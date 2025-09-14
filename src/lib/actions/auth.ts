@@ -1,11 +1,15 @@
 'use server';
 
-import { authFormSchema, FormState, signUpSchema } from '@/lib/definitions';
+import {
+  authFormSchema,
+  FormState,
+  signUpSchema,
+} from '@/lib/types/definitions';
 import {
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,
-} from '@/firebase/firebase';
-import { createSession, deleteSession, getSession } from '../../lib/session';
+} from '@/lib/firebase/client';
+import { createSession, deleteSession, getSession } from '../session';
 
 export async function signUp(
   _prevState: FormState,

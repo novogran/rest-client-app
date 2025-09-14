@@ -2,7 +2,7 @@
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from '@/i18n/navigation';
-import { AppDispatch, RootState } from '@/store/store';
+import { AppDispatch, RootState } from '@/lib/store/store';
 import { setMethod, setUrl, executeRequest } from './restClientSlice';
 import { encode } from '@/lib/url-encoding';
 import { selectVariables } from '../Variables/variablesSlice';
@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { CodeGenerator } from './CodeGenerator';
 import { useTranslations } from 'next-intl';
-import { useAppSelector } from '@/store/hooks';
+import { useAppSelector } from '@/lib/store/hooks';
 
 export function RestClientPage() {
   const t = useTranslations('RestClient');

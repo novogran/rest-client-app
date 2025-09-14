@@ -13,6 +13,10 @@ if (!HTMLElement.prototype.scrollIntoView) {
   HTMLElement.prototype.scrollIntoView = vi.fn();
 }
 
+vi.mock('@/lib/actions/restClient', () => ({
+  executeRequest: vi.fn(),
+}));
+
 afterEach(() => {
   cleanup();
 });

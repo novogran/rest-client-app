@@ -1,20 +1,28 @@
-import { createSession, deleteSession, getSession } from '@/lib/session';
-import { vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { createSession, deleteSession, getSession } from './session';
 
 vi.mock('server-only', () => ({}));
 
 const mockSet = vi.fn();
 const mockDelete = vi.fn();
 const mockGet = vi.fn();
-
 vi.mock('next/headers', () => ({
   cookies: () => ({
     set: mockSet,
     delete: mockDelete,
     get: mockGet,
-    getAll: vi.fn(),
-    has: vi.fn(),
   }),
+}));
+
+const mockCreateSessionCookie = vi.fn();
+const mockVerifySessionCookie = vi.fn();
+vi.mock('@/lib/firebase/admin', () => ({
+  default: {
+    auth: () => ({
+      createSessionCookie: mockCreateSessionCookie,
+      verifySessionCookie: mockVerifySessionCookie,
+    }),
+  },
 }));
 
 describe('Session Functions', () => {
@@ -23,56 +31,58 @@ describe('Session Functions', () => {
   });
 
   describe('createSession', () => {
-    it('should set a session cookie with correct parameters', async () => {
-      const userToken = 'test-token-123';
-      const expiresAt = new Date('2024-01-01');
+    it('should create a session cookie and set it', async () => {
+      const idToken = 'test-id-token';
+      const sessionCookie = 'test-session-cookie';
+      mockCreateSessionCookie.mockResolvedValue(sessionCookie);
 
-      await createSession(userToken, expiresAt);
+      await createSession(idToken);
 
-      expect(mockSet).toHaveBeenCalledWith('session', userToken, {
-        httpOnly: true,
-        secure: true,
-        expires: expiresAt,
-        sameSite: 'lax',
-        path: '/',
+      expect(mockCreateSessionCookie).toHaveBeenCalledWith(idToken, {
+        expiresIn: 60 * 60 * 24 * 5 * 1000,
       });
+      expect(mockSet).toHaveBeenCalledWith(
+        'session',
+        sessionCookie,
+        expect.any(Object)
+      );
     });
   });
 
   describe('deleteSession', () => {
     it('should delete the session cookie', async () => {
       await deleteSession();
-
       expect(mockDelete).toHaveBeenCalledWith('session');
     });
   });
 
   describe('getSession', () => {
-    it('should return session token when session exists', async () => {
-      const sessionToken = 'test-session-token';
-      mockGet.mockReturnValue({ value: sessionToken });
-
-      const result = await getSession();
-
-      expect(mockGet).toHaveBeenCalledWith('session');
-      expect(result).toBe(sessionToken);
-    });
-
-    it('should return undefined when session does not exist', async () => {
+    it('should return null if no session cookie exists', async () => {
       mockGet.mockReturnValue(undefined);
-
-      const result = await getSession();
-
-      expect(mockGet).toHaveBeenCalledWith('session');
-      expect(result).toBeUndefined();
+      const session = await getSession();
+      expect(session).toBeNull();
     });
 
-    it('should return empty string when session value is empty', async () => {
-      mockGet.mockReturnValue({ value: '' });
+    it('should return userId if the session cookie is valid', async () => {
+      const sessionCookie = 'valid-session-cookie';
+      const decodedToken = { uid: 'user-123' };
+      mockGet.mockReturnValue({ value: sessionCookie });
+      mockVerifySessionCookie.mockResolvedValue(decodedToken);
 
-      const result = await getSession();
+      const session = await getSession();
 
-      expect(result).toBe('');
+      expect(mockVerifySessionCookie).toHaveBeenCalledWith(sessionCookie, true);
+      expect(session).toEqual({ userId: 'user-123' });
+    });
+
+    it('should return null if the session cookie is invalid', async () => {
+      const sessionCookie = 'invalid-session-cookie';
+      mockGet.mockReturnValue({ value: sessionCookie });
+      mockVerifySessionCookie.mockRejectedValue(new Error('Invalid cookie'));
+
+      const session = await getSession();
+
+      expect(session).toBeNull();
     });
   });
 });

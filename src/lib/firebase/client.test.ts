@@ -42,7 +42,7 @@ import {
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,
   logout,
-} from '@/firebase/firebase';
+} from '@/lib/firebase/client';
 
 import {
   signInWithEmailAndPassword,

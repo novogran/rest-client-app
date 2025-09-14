@@ -1,6 +1,6 @@
 'use client';
 
-import { signUp } from '@/app/actions/auth';
+import { signUp } from '@/lib/actions/auth';
 import { useActionState, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,7 +18,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from '@/i18n/navigation';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Eye, EyeOff } from 'lucide-react';
-import { signUpSchema } from '@/lib/definitions';
+import { signUpSchema } from '@/lib/types/definitions';
 import {
   Card,
   CardContent,

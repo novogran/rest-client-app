@@ -8,7 +8,7 @@ import { initializeFromUrl } from '@/components/RestClient/restClientSlice';
 import { decode } from '@/lib/url-encoding';
 import { nanoid } from 'nanoid';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AppDispatch } from '@/store/store';
+import { AppDispatch } from '@/lib/store/store';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 type Header = { id: string; key: string; value: string; enabled: boolean };

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useSelector } from 'react-redux';
 import StoreProvider from './index';
-import * as storeModule from '@/store/store';
+import * as storeModule from '@/lib/store/store';
 
 const makeStoreSpy = vi.spyOn(storeModule, 'makeStore');
 

@@ -1,4 +1,4 @@
-import { DeveloperData } from '@/types/developerInfo.types';
+import { DeveloperData } from '@/lib/types/developerInfo.types';
 
 export const developerData: DeveloperData[] = [
   {

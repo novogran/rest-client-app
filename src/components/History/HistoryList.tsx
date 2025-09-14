@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import { HistoryCard } from './HistoryCard';
-import type { HistoryEntry } from '@/app/actions/history';
+import type { HistoryEntry } from '@/lib/actions/history';
 
 export function HistoryList({ history }: { history: HistoryEntry[] }) {
   const t = useTranslations('History');

@@ -2,7 +2,7 @@ import {
   authFormSchema,
   signUpSchema,
   type FormState,
-} from '@/lib/definitions';
+} from '@/lib/types/definitions';
 
 describe('Zod Schemas', () => {
   describe('authFormSchema', () => {

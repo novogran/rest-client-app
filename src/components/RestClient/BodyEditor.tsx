@@ -5,7 +5,7 @@ import { json } from '@codemirror/lang-json';
 import { setBody } from './restClientSlice';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { AppDispatch, RootState } from '@/store/store';
+import { AppDispatch, RootState } from '@/lib/store/store';
 import { useTranslations } from 'next-intl';
 
 export function BodyEditor() {

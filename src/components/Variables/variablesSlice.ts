@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { nanoid } from 'nanoid';
 import { loadState, saveState } from '@/lib/localStorage';
-import type { RootState } from '@/store/store';
+import type { RootState } from '@/lib/store/store';
 
 export interface Variable {
   id: string;

@@ -1,8 +1,7 @@
 'use server';
 
 import { getSession } from '@/lib/session';
-import { db } from '@/firebase/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import admin from '@/lib/firebase/admin';
 
 interface RequestPayload {
   method: string;
@@ -92,7 +91,7 @@ async function saveToHistory(
         method: request.method,
         url: request.url,
         headers: request.headers,
-        body: request.body,
+        body: request.body ?? null,
         size: request.body ? new Blob([request.body]).size : 0,
       },
       response: {
@@ -101,10 +100,10 @@ async function saveToHistory(
         size: response.data ? new Blob([response.data]).size : 0,
         error: response.error,
       },
-      createdAt: serverTimestamp(),
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
     };
 
-    await addDoc(collection(db, 'history'), historyEntry);
+    await admin.firestore().collection('history').add(historyEntry);
   } catch (error) {
     console.error('Failed to save request to history:', error);
   }

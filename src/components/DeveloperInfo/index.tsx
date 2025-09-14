@@ -6,7 +6,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { DeveloperData } from '@/types/developerInfo.types';
+import { DeveloperData } from '@/lib/types/developerInfo.types';
 import { FC } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';

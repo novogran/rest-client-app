@@ -30,7 +30,7 @@ vi.mock('@hookform/resolvers/zod', () => ({
   zodResolver: vi.fn(),
 }));
 
-vi.mock('@/app/actions/auth', () => ({
+vi.mock('@/lib/actions/auth', () => ({
   signIn: vi.fn(),
 }));
 

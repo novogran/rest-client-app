@@ -3,10 +3,10 @@ import { render, screen, within, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { NextIntlClientProvider } from 'next-intl';
 import userEvent from '@testing-library/user-event';
-import { makeStore, AppStore } from '@/store/store';
+import { makeStore, AppStore } from '@/lib/store/store';
 import { RestClientPage } from './index';
 import messages from '../../../messages/en.json';
-import * as actions from './actions';
+import * as actions from '../../lib/actions/restClient';
 
 vi.mock('./actions');
 const executeRequestMock = vi.mocked(actions.executeRequest);

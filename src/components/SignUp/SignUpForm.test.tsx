@@ -21,7 +21,7 @@ vi.mock('next-intl', () => ({
   useTranslations: vi.fn(),
 }));
 
-vi.mock('@/app/actions/auth', () => ({
+vi.mock('@/lib/actions/auth', () => ({
   signUp: vi.fn(),
 }));
 

@@ -14,7 +14,7 @@ import { java } from '@codemirror/lang-java';
 import { go } from '@codemirror/lang-go';
 import { cpp } from '@codemirror/lang-cpp';
 import { php } from '@codemirror/lang-php';
-import { RootState } from '@/store/store';
+import { RootState } from '@/lib/store/store';
 import { useTranslations } from 'next-intl';
 
 const targets = [
