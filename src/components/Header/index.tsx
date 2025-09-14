@@ -6,14 +6,15 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { signIn, signOut } from '@/store/authorizationSlice';
 import { LanguageSwitcher } from '../LanguageSwitcher';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { getCurrentSession, logout } from '@/app/actions/auth';
+import { useRouter, usePathname } from '@/i18n/navigation';
 
 export const Header = () => {
   const t = useTranslations('Header');
-  const authorization = useAppSelector((state) => state.authorization.value);
-  const dispatch = useAppDispatch();
+  const [user, setUser] = useState<unknown>(null);
+  const router = useRouter();
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -23,6 +24,24 @@ export const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userSession = await getCurrentSession();
+        setUser(userSession);
+      } catch (error) {
+        setUser(null);
+      }
+    };
+    fetchUser();
+  }, [pathname]);
+
+  const handleLogout = async () => {
+    await logout();
+    setUser(null);
+    router.replace('/');
+  };
 
   return (
     <header
@@ -46,11 +65,11 @@ export const Header = () => {
 
         <nav className="flex items-center gap-3">
           <LanguageSwitcher size={isScrolled ? 'sm' : 'default'} />
-          {authorization ? (
+          {user ? (
             <Button
               size={isScrolled ? 'sm' : 'default'}
               variant="secondary"
-              onClick={() => dispatch(signOut())}
+              onClick={handleLogout}
             >
               {t('signOut')}
             </Button>
@@ -61,14 +80,14 @@ export const Header = () => {
                 variant="secondary"
                 asChild
               >
-                <Link href="/signIn">{t('signIn')}</Link>
+                <Link href="/auth/signIn">{t('signIn')}</Link>
               </Button>
               <Button
                 size={isScrolled ? 'sm' : 'default'}
                 className="bg-accent text-accent-foreground hover:bg-accent/90"
                 asChild
               >
-                <Link href="/signIn_signUp">{t('signUp')}</Link>
+                <Link href="/auth/signUp">{t('signUp')}</Link>
               </Button>
             </>
           )}

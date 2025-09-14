@@ -47,6 +47,26 @@
     "signOut": "Sign Out",
     "logo": "App logo"
   },
+  "Auth": {
+    "signUpTitle": "Create your account",
+    "signUpDescription": "Get started with our service",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Create a password",
+    "confirmPasswordLabel": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "showPasswords": "Show passwords",
+    "signUpButton": "Sign Up",
+    "creatingAccount": "Creating account...",
+    "haveAccount": "Already have an account?",
+    "signInLink": "Sign in",
+    "signInTitle": "Welcome back",
+    "signInDescription": "Enter your credentials to access your account",
+    "signInButton": "Sign In",
+    "signingIn": "Signing in...",
+    "noAccount": "Don't have an account?",
+    "signUpLink": "Sign up"
+  },
   "RestClient": {
     "title": "REST Client",
     "sendButton": "Send",
