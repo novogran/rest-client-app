@@ -27,7 +27,11 @@
     "title": "Добро пожаловать!",
     "subtitle": "Это легковесная версия Postman.",
     "restClientLink": "Перейти к REST-клиенту",
-    "variablesLink": "Управлять переменными"
+    "variablesLink": "Управлять переменными",
+    "historyLink": "История запросов",
+    "welcomeBack": "С возвращением!",
+    "signInLink": "Войти",
+    "signUpLink": "Зарегистрироваться"
   },
   "NotFound": {
     "sadEmoji": "Грустный Смайлик",
@@ -90,5 +94,11 @@
     "prettifySuccess": "JSON успешно отформатирован!",
     "prettifyInfo": "Нечего форматировать.",
     "prettifyError": "Невалидный JSON. Невозможно отформатировать."
+  },
+  "History": {
+    "title": "История Запросов",
+    "noHistoryMessage": "Вы еще не выполняли запросов.",
+    "goToClientLink": "Сделать запрос",
+    "rerunButton": "Повторить"
   }
 }

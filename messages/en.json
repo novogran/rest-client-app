@@ -27,7 +27,11 @@
     "title": "Welcome!",
     "subtitle": "This is a light-weight version of Postman.",
     "restClientLink": "Go to REST Client",
-    "variablesLink": "Manage Variables"
+    "variablesLink": "Manage Variables",
+    "historyLink": "Request History",
+    "welcomeBack": "Welcome back!",
+    "signInLink": "Sign in",
+    "signUpLink": "Sign up"
   },
   "NotFound": {
     "sadEmoji": "Sad Emoji",
@@ -90,5 +94,11 @@
     "prettifySuccess": "JSON successfully prettified!",
     "prettifyInfo": "Nothing to prettify.",
     "prettifyError": "Invalid JSON. Cannot prettify."
+  },
+  "History": {
+    "title": "Request History",
+    "noHistoryMessage": "You haven't executed any requests yet.",
+    "goToClientLink": "Make a request",
+    "rerunButton": "Re-run"
   }
 }

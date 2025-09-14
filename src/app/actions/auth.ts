@@ -36,10 +36,8 @@ export async function signUp(
       };
     }
 
-    const token = await data.user.getIdTokenResult();
-    const expiresAt = new Date(token.expirationTime);
-
-    await createSession(token.token, expiresAt);
+    const token = await data.user.getIdToken();
+    await createSession(token);
 
     return {
       success: true,
@@ -84,10 +82,8 @@ export async function signIn(
       };
     }
 
-    const token = await data.user.getIdTokenResult();
-    const expiresAt = new Date(token.expirationTime);
-
-    await createSession(token.token, expiresAt);
+    const token = await data.user.getIdToken();
+    await createSession(token);
 
     return {
       success: true,
