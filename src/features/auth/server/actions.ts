@@ -1,9 +1,9 @@
 'use server';
 
 import {
-  authFormSchema,
+  createAuthFormSchema,
+  createSignUpSchema,
   FormState,
-  signUpSchema,
 } from '@/features/auth/model/definitions';
 import {
   createSession,
@@ -14,11 +14,14 @@ import {
   registerWithEmailAndPassword,
   logInWithEmailAndPassword,
 } from '@/core/firebase/client';
+import { getTranslations } from 'next-intl/server';
 
 export async function signUp(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
+  const t = await getTranslations('ZodErrors');
+  const signUpSchema = createSignUpSchema(t);
   const validatedFields = signUpSchema.safeParse({
     email: formData.get('email'),
     password: formData.get('password'),
@@ -66,6 +69,8 @@ export async function signIn(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
+  const t = await getTranslations('ZodErrors');
+  const authFormSchema = createAuthFormSchema(t);
   const validatedFields = authFormSchema.safeParse({
     email: formData.get('email'),
     password: formData.get('password'),

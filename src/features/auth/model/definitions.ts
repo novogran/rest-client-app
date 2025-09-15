@@ -1,26 +1,33 @@
 import { z } from 'zod';
 
-export const authFormSchema = z.object({
-  email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
-  password: z
-    .string()
-    .min(8, { message: 'Be at least 8 characters long' })
-    .regex(/\p{L}/u, { message: 'Contain at least one letter.' })
-    .regex(/\p{N}/u, { message: 'Contain at least one number.' })
-    .regex(/[^\p{L}\p{N}]/u, {
-      message: 'Contain at least one special character.',
-    })
-    .trim(),
-});
+type TranslationFunction = (key: string) => string;
 
-export const signUpSchema = authFormSchema
-  .extend({
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ['confirmPassword'],
+export const createAuthFormSchema = (t: TranslationFunction) =>
+  z.object({
+    email: z
+      .string()
+      .email({ message: t('email') })
+      .trim(),
+    password: z
+      .string()
+      .min(8, { message: t('passwordMin') })
+      .regex(/\p{L}/u, { message: t('passwordLetter') })
+      .regex(/\p{N}/u, { message: t('passwordNumber') })
+      .regex(/[^\p{L}\p{N}]/u, {
+        message: t('passwordSpecial'),
+      })
+      .trim(),
   });
+
+export const createSignUpSchema = (t: TranslationFunction) =>
+  createAuthFormSchema(t)
+    .extend({
+      confirmPassword: z.string(),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: t('confirmPasswordMatch'),
+      path: ['confirmPassword'],
+    });
 
 export type FormState = {
   errors?: {

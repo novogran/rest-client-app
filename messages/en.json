@@ -107,5 +107,13 @@
     "noHistoryMessage": "You haven't executed any requests yet.",
     "goToClientLink": "Make a request",
     "rerunButton": "Re-run"
+  },
+  "ZodErrors": {
+    "email": "Please enter a valid email.",
+    "passwordMin": "Be at least 8 characters long",
+    "passwordLetter": "Contain at least one letter.",
+    "passwordNumber": "Contain at least one number.",
+    "passwordSpecial": "Contain at least one special character.",
+    "confirmPasswordMatch": "Passwords don't match"
   }
 }

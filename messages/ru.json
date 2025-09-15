@@ -107,5 +107,13 @@
     "noHistoryMessage": "Вы еще не выполняли запросов.",
     "goToClientLink": "Сделать запрос",
     "rerunButton": "Повторить"
+  },
+  "ZodErrors": {
+    "email": "Пожалуйста, введите корректный email.",
+    "passwordMin": "Пароль должен быть не менее 8 символов",
+    "passwordLetter": "Должен содержать хотя бы одну букву.",
+    "passwordNumber": "Должен содержать хотя бы одну цифру.",
+    "passwordSpecial": "Должен содержать хотя бы один спецсимвол.",
+    "confirmPasswordMatch": "Пароли не совпадают"
   }
 }

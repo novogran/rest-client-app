@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useEffect, useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -25,8 +25,8 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useTranslations } from 'next-intl';
-import { signUpSchema } from '../model/definitions';
 import { signUp } from '../server/actions';
+import { createSignUpSchema } from '../model/definitions';
 
 export default function SignUpForm() {
   const t = useTranslations('Auth');
@@ -40,6 +40,8 @@ export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const tZod = useTranslations('ZodErrors');
+  const signUpSchema = useMemo(() => createSignUpSchema(tZod), [tZod]);
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
