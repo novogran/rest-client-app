@@ -4,11 +4,11 @@ import { useEffect, use, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
-import { initializeFromUrl } from '@/components/RestClient/restClientSlice';
-import { decode } from '@/lib/url-encoding';
+import { initializeFromUrl } from '@/features/rest-client';
+import { decode } from '@/core/http/url-encoding';
 import { nanoid } from 'nanoid';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AppDispatch } from '@/lib/store/store';
+import { AppDispatch } from '@/core/store/store';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 type Header = { id: string; key: string; value: string; enabled: boolean };
@@ -47,8 +47,11 @@ function RestClientSkeleton() {
   );
 }
 
-const DynamicRestClientPage = dynamic(
-  () => import('@/components/RestClient').then((mod) => mod.RestClientPage),
+const RestClientScreen = dynamic(
+  () =>
+    import('@/screens/rest-client/page.client').then(
+      (mod) => mod.RestClientPage
+    ),
   {
     ssr: false,
     loading: () => <RestClientSkeleton />,
@@ -87,5 +90,5 @@ export default function Page({
     }
   }, [dispatch, resolvedParams.params, searchParams]);
 
-  return <DynamicRestClientPage />;
+  return <RestClientScreen />;
 }

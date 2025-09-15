@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import createIntlMiddleware from 'next-intl/middleware';
-import { routing } from './i18n/routing';
+import { routing } from './core/i18n/routing';
 
 const protectedRoutes = ['/rest-client', '/variables', '/history'];
 const authRoutes = ['/auth/signIn', '/auth/signUp'];

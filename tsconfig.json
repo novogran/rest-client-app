@@ -23,7 +23,13 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@core/*": ["src/core/*"],
+      "@features/*": ["src/components/features/*"],
+      "@components/*": ["src/components/*"],
+      "@layout/*": ["src/components/layout/*"],
+      "@screens/*": ["src/screens/*"],
+      "@app/*": ["src/app/*"]
     },
     "types": ["vitest/globals", "@testing-library/jest-dom"],
     "skipLibCheck": true

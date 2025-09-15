@@ -92,15 +92,13 @@ rest-client-app
 ├─ README.md
 ├─ src
 │  ├─ app
-│  │  ├─ actions
-│  │  │  ├─ auth.test.ts
-│  │  │  ├─ auth.ts
-│  │  │  └─ history.ts
 │  │  ├─ favicon.ico
 │  │  ├─ global-not-found.test.tsx
 │  │  ├─ global-not-found.tsx
 │  │  ├─ globals.css
 │  │  ├─ layout.tsx
+│  │  ├─ store-provider.test.tsx
+│  │  ├─ store-provider.tsx
 │  │  └─ [locale]
 │  │     ├─ auth
 │  │     │  └─ [[...slug]]
@@ -118,52 +116,17 @@ rest-client-app
 │  │     └─ variables
 │  │        └─ page.tsx
 │  ├─ components
-│  │  ├─ DeveloperInfo
-│  │  │  ├─ DeveloperInfo.test.tsx
-│  │  │  └─ index.tsx
-│  │  ├─ Footer
-│  │  │  ├─ Footer.test.tsx
-│  │  │  └─ index.tsx
-│  │  ├─ Header
-│  │  │  ├─ Header.test.tsx
-│  │  │  └─ index.tsx
-│  │  ├─ History
-│  │  │  ├─ HistoryCard.tsx
-│  │  │  └─ HistoryList.tsx
-│  │  ├─ HomePage
-│  │  │  ├─ WelcomeGuest.tsx
-│  │  │  └─ WelcomeUser.tsx
-│  │  ├─ LanguageSwitcher
-│  │  │  ├─ index.tsx
-│  │  │  ├─ LanguageSwitcher.test.tsx
-│  │  │  ├─ useLanguageSwitcher.test.ts
-│  │  │  └─ useLanguageSwitcher.ts
-│  │  ├─ RestClient
-│  │  │  ├─ actions.test.ts
-│  │  │  ├─ actions.ts
-│  │  │  ├─ BodyEditor.test.tsx
-│  │  │  ├─ BodyEditor.tsx
-│  │  │  ├─ CodeGenerator.test.tsx
-│  │  │  ├─ CodeGenerator.tsx
-│  │  │  ├─ HeadersEditor.test.tsx
-│  │  │  ├─ HeadersEditor.tsx
-│  │  │  ├─ index.tsx
-│  │  │  ├─ MethodSelector.test.tsx
-│  │  │  ├─ MethodSelector.tsx
-│  │  │  ├─ ResponseViewer.test.tsx
-│  │  │  ├─ ResponseViewer.tsx
-│  │  │  ├─ RestClient.test.tsx
-│  │  │  ├─ restClientSlice.test.ts
-│  │  │  └─ restClientSlice.ts
-│  │  ├─ SignIn
-│  │  │  ├─ SignInForm.test.tsx
-│  │  │  └─ SignInForm.tsx
-│  │  ├─ SignUp
-│  │  │  ├─ SignUpForm.test.tsx
-│  │  │  └─ SignUpForm.tsx
-│  │  ├─ StoreProvider
-│  │  │  ├─ index.tsx
-│  │  │  └─ StoreProvider.test.tsx
+│  │  ├─ layout
+│  │  │  ├─ footer
+│  │  │  │  ├─ developer-info.test.tsx
+│  │  │  │  ├─ developer-info.tsx
+│  │  │  │  ├─ index.test.tsx
+│  │  │  │  ├─ index.tsx
+│  │  │  │  └─ types
+│  │  │  │     └─ developer-info.ts
+│  │  │  └─ header
+│  │  │     ├─ index.tsx
+│  │  │     └─ indextest.tsx
 │  │  ├─ ui
 │  │  │  ├─ button.tsx
 │  │  │  ├─ card.tsx
@@ -177,37 +140,100 @@ rest-client-app
 │  │  │  ├─ skeleton.tsx
 │  │  │  ├─ sonner.tsx
 │  │  │  └─ tabs.tsx
-│  │  └─ Variables
-│  │     ├─ index.tsx
-│  │     └─ variablesSlice.ts
+│  │  └─ widgets
+│  │     ├─ language-switcher
+│  │     │  ├─ index.tsx
+│  │     │  ├─ LanguageSwitcher.test.tsx
+│  │     │  ├─ useLanguageSwitcher.test.ts
+│  │     │  └─ useLanguageSwitcher.ts
+│  │     └─ LanguageSwitcher
+│  │        └─ index.tsx
+│  ├─ core
+│  │  ├─ firebase
+│  │  │  ├─ admin.ts
+│  │  │  ├─ client.test.ts
+│  │  │  └─ client.ts
+│  │  ├─ http
+│  │  │  ├─ url-encoding.test.ts
+│  │  │  ├─ url-encoding.ts
+│  │  │  └─ variable-replacer.ts
+│  │  ├─ i18n
+│  │  │  ├─ navigation.ts
+│  │  │  ├─ request.ts
+│  │  │  └─ routing.ts
+│  │  ├─ index.ts
+│  │  ├─ server
+│  │  │  └─ index.ts
+│  │  ├─ session
+│  │  │  ├─ session.test.ts
+│  │  │  └─ session.ts
+│  │  ├─ storage
+│  │  │  └─ local-storage.ts
+│  │  ├─ store
+│  │  │  ├─ hooks.ts
+│  │  │  ├─ store.test.ts
+│  │  │  └─ store.ts
+│  │  └─ utils
+│  │     └─ utils.ts
 │  ├─ data
 │  │  ├─ developerData.test.ts
 │  │  └─ developerData.ts
-│  ├─ firebase
-│  │  ├─ firebase-admin.ts
-│  │  ├─ firebase.test.ts
-│  │  └─ firebase.ts
-│  ├─ i18n
-│  │  ├─ navigation.ts
-│  │  ├─ request.ts
-│  │  └─ routing.ts
-│  ├─ lib
-│  │  ├─ definitions.test.ts
-│  │  ├─ definitions.ts
-│  │  ├─ localStorage.ts
-│  │  ├─ session.test.ts
-│  │  ├─ session.ts
-│  │  ├─ url-encoding.test.ts
-│  │  ├─ url-encoding.ts
-│  │  ├─ utils.ts
-│  │  └─ variable-replacer.ts
+│  ├─ features
+│  │  ├─ auth
+│  │  │  ├─ index.ts
+│  │  │  ├─ model
+│  │  │  │  ├─ definitions.test.ts
+│  │  │  │  └─ definitions.ts
+│  │  │  ├─ server
+│  │  │  │  ├─ actions.test.ts
+│  │  │  │  └─ actions.ts
+│  │  │  └─ ui
+│  │  │     ├─ sign-in-form.test.tsx
+│  │  │     ├─ sign-in-form.tsx
+│  │  │     ├─ sign-up-form.test.tsx
+│  │  │     └─ sign-up-form.tsx
+│  │  ├─ history
+│  │  │  ├─ index.ts
+│  │  │  ├─ server
+│  │  │  │  └─ actions.ts
+│  │  │  └─ ui
+│  │  │     ├─ history-card.tsx
+│  │  │     └─ history-list.tsx
+│  │  ├─ index.ts
+│  │  ├─ rest-client
+│  │  │  ├─ index.ts
+│  │  │  ├─ model
+│  │  │  │  ├─ slice.test.ts
+│  │  │  │  └─ slice.ts
+│  │  │  ├─ server
+│  │  │  │  ├─ actions.test.ts
+│  │  │  │  └─ actions.ts
+│  │  │  └─ ui
+│  │  │     ├─ body-editor.test.tsx
+│  │  │     ├─ body-editor.tsx
+│  │  │     ├─ code-generator.test.tsx
+│  │  │     ├─ code-generator.tsx
+│  │  │     ├─ headers-editor.test.tsx
+│  │  │     ├─ headers-editor.tsx
+│  │  │     ├─ method-selector.test.tsx
+│  │  │     ├─ method-selector.tsx
+│  │  │     ├─ response-viewer.test.tsx
+│  │  │     └─ response-viewer.tsx
+│  │  └─ variables
+│  │     ├─ index.ts
+│  │     └─ model
+│  │        └─ slice.ts
 │  ├─ middleware.ts
-│  ├─ store
-│  │  ├─ hooks.ts
-│  │  ├─ store.test.ts
-│  │  └─ store.ts
-│  └─ types
-│     └─ developerInfo.types.ts
+│  └─ screens
+│     ├─ auth
+│     ├─ home
+│     │  ├─ welcome-guest.tsx
+│     │  └─ welcome-user.tsx
+│     ├─ rest-client
+│     │  ├─ page.client.test.tsx
+│     │  └─ page.client.tsx
+│     └─ variables
+│        └─ page.client.tsx
 ├─ tsconfig.json
 ├─ vitest.config.ts
 └─ vitest.setup.ts

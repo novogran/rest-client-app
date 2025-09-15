@@ -3,8 +3,9 @@
 import dynamic from 'next/dynamic';
 import { Skeleton } from '@/components/ui/skeleton';
 
-const DynamicVariablesPage = dynamic(
-  () => import('@/components/Variables').then((mod) => mod.VariablesPage),
+const VariablesScreen = dynamic(
+  () =>
+    import('@/screens/variables/page.client').then((mod) => mod.VariablesPage),
   {
     ssr: false,
     loading: () => <Skeleton className="h-64 w-full" />,
@@ -12,5 +13,5 @@ const DynamicVariablesPage = dynamic(
 );
 
 export default function Page() {
-  return <DynamicVariablesPage />;
+  return <VariablesScreen />;
 }

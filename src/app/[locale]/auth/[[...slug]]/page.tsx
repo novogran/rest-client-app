@@ -1,6 +1,9 @@
-import SignInForm from '@/components/SignIn/SignInForm';
-import SignUpForm from '@/components/SignUp/SignUpForm';
 import { notFound } from 'next/navigation';
+import dynamic from 'next/dynamic';
+
+const AuthScreen = dynamic(() =>
+  import('@/screens/auth/page.client').then((m) => m.AuthScreen)
+);
 
 export default async function AuthPage({
   params,
@@ -8,11 +11,9 @@ export default async function AuthPage({
   params: Promise<{ slug: string[] | null | undefined }>;
 }) {
   const { slug } = await params;
-  const authType = slug?.[0] || 'signIn';
+  const authType = (slug?.[0] || 'signIn') as 'signIn' | 'signUp';
 
-  if (authType !== 'signIn' && authType !== 'signUp') {
-    notFound();
-  }
+  if (authType !== 'signIn' && authType !== 'signUp') notFound();
 
-  return <>{authType === 'signIn' ? <SignInForm /> : <SignUpForm />}</>;
+  return <AuthScreen authType={authType} />;
 }

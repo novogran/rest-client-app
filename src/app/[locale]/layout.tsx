@@ -1,17 +1,17 @@
 import type { Metadata } from 'next';
 import './../globals.css';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import { routing } from '@/i18n/routing';
+import { routing } from '@/core/i18n/routing';
 import {
   getMessages,
   getTranslations,
   setRequestLocale,
 } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import StoreProvider from '../../components/StoreProvider';
+import StoreProvider from '../store-provider';
 import { Toaster } from '@/components/ui/sonner';
-import { Header } from '@/components/Header';
-import Footer from '@/components/Footer';
+import { Header } from '@/components/layout/header';
+import Footer from '@/components/layout/footer';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

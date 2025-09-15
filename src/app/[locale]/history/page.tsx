@@ -1,17 +1,7 @@
-import { getHistory } from '@/lib/actions/history';
-import { getTranslations } from 'next-intl/server';
-import { HistoryList } from '@/components/History/HistoryList';
+import HistoryScreen from '@/screens/history/page.server';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HistoryPage() {
-  const history = await getHistory();
-  const t = await getTranslations('History');
-
-  return (
-    <div className="p-4 space-y-6 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold">{t('title')}</h1>
-      <HistoryList history={history} />
-    </div>
-  );
+  return <HistoryScreen />;
 }
