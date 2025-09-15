@@ -44,5 +44,25 @@
     "signUp": "Зарегистрироваться",
     "signOut": "Выйти",
     "logo": "Логотип приложения"
+  },
+  "Auth": {
+    "signUpTitle": "Создайте аккаунт",
+    "signUpDescription": "Начните пользоваться нашим сервисом",
+    "emailLabel": "Email",
+    "passwordLabel": "Пароль",
+    "passwordPlaceholder": "Придумайте пароль",
+    "confirmPasswordLabel": "Подтвердите пароль",
+    "confirmPasswordPlaceholder": "Подтвердите ваш пароль",
+    "showPasswords": "Показать пароли",
+    "signUpButton": "Зарегистрироваться",
+    "creatingAccount": "Создание аккаунта...",
+    "haveAccount": "Уже есть аккаунт?",
+    "signInLink": "Войти",
+    "signInTitle": "С возвращением",
+    "signInDescription": "Введите свои данные для входа в аккаунт",
+    "signInButton": "Войти",
+    "signingIn": "Вход...",
+    "noAccount": "Нет аккаунта?",
+    "signUpLink": "Зарегистрироваться"
   }
 }
