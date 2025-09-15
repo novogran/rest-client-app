@@ -31,7 +31,7 @@ export const Header = () => {
       try {
         const userSession = await getCurrentSession();
         setUser(userSession);
-      } catch (error) {
+      } catch {
         setUser(null);
       }
     };

@@ -95,6 +95,13 @@
     "prettifyInfo": "Nothing to prettify.",
     "prettifyError": "Invalid JSON. Cannot prettify."
   },
+  "Variables": {
+    "title": "Variables",
+    "noVariablesMessage": "No variables created yet.",
+    "createVariableButton": "Add Variable",
+    "variableNamePlaceholder": "Variable Name",
+    "variableValuePlaceholder": "Variable Value"
+  },
   "History": {
     "title": "Request History",
     "noHistoryMessage": "You haven't executed any requests yet.",

@@ -95,6 +95,13 @@
     "prettifyInfo": "Нечего форматировать.",
     "prettifyError": "Невалидный JSON. Невозможно отформатировать."
   },
+  "Variables": {
+    "title": "Переменные",
+    "noVariablesMessage": "Переменные еще не созданы.",
+    "createVariableButton": "Добавить переменную",
+    "variableNamePlaceholder": "Имя переменной",
+    "variableValuePlaceholder": "Значение переменной"
+  },
   "History": {
     "title": "История Запросов",
     "noHistoryMessage": "Вы еще не выполняли запросов.",

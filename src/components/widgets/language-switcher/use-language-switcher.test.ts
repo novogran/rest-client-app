@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
-import { useLanguageSwitcher } from './useLanguageSwitcher';
+import { useLanguageSwitcher } from './use-language-switcher';
 
 const mockRouter = { replace: vi.fn() };
 vi.mock('@/core/i18n/navigation', () => ({

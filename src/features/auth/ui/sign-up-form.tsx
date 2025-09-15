@@ -77,12 +77,12 @@ export default function SignUpForm() {
 
   return (
     <div className="min-h-200 flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4 py-12">
-      <Card className="w-full max-w-md shadow-xl border-0">
+      <Card className="w-full max-w-md shadow-2xl shadow-primary/10 border-border/50">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-bold text-gray-900">
+          <CardTitle className="text-2xl font-bold text-foreground">
             {t('signUpTitle')}
           </CardTitle>
-          <CardDescription className="text-gray-600">
+          <CardDescription className="text-muted-foreground">
             {t('signUpDescription')}
           </CardDescription>
         </CardHeader>
@@ -103,14 +103,13 @@ export default function SignUpForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-700 font-medium">
+                    <FormLabel className="text-foreground font-medium">
                       {t('emailLabel')}
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="email@example.com"
                         type="email"
-                        className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         {...field}
                       />
                     </FormControl>
@@ -124,7 +123,7 @@ export default function SignUpForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-700 font-medium">
+                    <FormLabel className="text-foreground font-medium">
                       {t('passwordLabel')}
                     </FormLabel>
                     <FormControl>
@@ -132,11 +131,12 @@ export default function SignUpForm() {
                         <Input
                           placeholder={t('passwordPlaceholder')}
                           type={showPassword ? 'text' : 'password'}
-                          className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 pr-10"
+                          className="pr-10"
                           {...field}
                         />
-                        <button
+                        <Button
                           type="button"
+                          variant={'invisible'}
                           className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
                           onClick={() => setShowPassword(!showPassword)}
                         >
@@ -145,7 +145,7 @@ export default function SignUpForm() {
                           ) : (
                             <Eye size={18} className="text-gray-400" />
                           )}
-                        </button>
+                        </Button>
                       </div>
                     </FormControl>
                     <FormMessage className="text-destructive" />
@@ -158,7 +158,7 @@ export default function SignUpForm() {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-700 font-medium">
+                    <FormLabel className="text-foreground font-medium">
                       {t('confirmPasswordLabel')}
                     </FormLabel>
                     <FormControl>
@@ -166,11 +166,12 @@ export default function SignUpForm() {
                         <Input
                           placeholder={t('confirmPasswordPlaceholder')}
                           type={showConfirmPassword ? 'text' : 'password'}
-                          className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 pr-10"
+                          className="pr-10"
                           {...field}
                         />
-                        <button
+                        <Button
                           type="button"
+                          variant={'invisible'}
                           className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
                           onClick={() =>
                             setShowConfirmPassword(!showConfirmPassword)
@@ -181,7 +182,7 @@ export default function SignUpForm() {
                           ) : (
                             <Eye size={18} className="text-gray-400" />
                           )}
-                        </button>
+                        </Button>
                       </div>
                     </FormControl>
                     <FormMessage className="text-destructive" />
@@ -206,24 +207,21 @@ export default function SignUpForm() {
                 </label>
               </div>
 
-              <Button
-                type="submit"
-                disabled={pending}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-md transition-all duration-300"
-              >
+              <Button type="submit" disabled={pending} className="w-full">
                 {pending ? t('creatingAccount') : t('signUpButton')}
               </Button>
 
               <div className="text-center">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   {t('haveAccount')}{' '}
-                  <button
+                  <Button
                     type="button"
+                    variant="link"
+                    className="p-0 h-auto font-medium text-primary"
                     onClick={() => router.push('/auth/signIn')}
-                    className="text-blue-600 hover:text-blue-700 font-medium underline transition-colors"
                   >
                     {t('signInLink')}
-                  </button>
+                  </Button>
                 </p>
               </div>
             </form>

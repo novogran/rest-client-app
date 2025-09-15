@@ -1,9 +1,5 @@
 import { notFound } from 'next/navigation';
-import dynamic from 'next/dynamic';
-
-const AuthScreen = dynamic(() =>
-  import('@/screens/auth/page.client').then((m) => m.AuthScreen)
-);
+import { SignInForm, SignUpForm } from '@/features/auth';
 
 export default async function AuthPage({
   params,
@@ -15,5 +11,5 @@ export default async function AuthPage({
 
   if (authType !== 'signIn' && authType !== 'signUp') notFound();
 
-  return <AuthScreen authType={authType} />;
+  return authType === 'signIn' ? <SignInForm /> : <SignUpForm />;
 }

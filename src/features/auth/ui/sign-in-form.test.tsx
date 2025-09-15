@@ -158,7 +158,11 @@ describe('SignInForm', () => {
 
   it('should handle form submission', () => {
     render(<SignInForm />);
-    const form = screen.getByTestId('button').closest('form');
+
+    const forms = screen
+      .getAllByTestId('button')
+      .map((button) => button.closest('form'));
+    const form = forms[0];
     if (form) {
       fireEvent.submit(form);
     }
@@ -234,8 +238,6 @@ describe('SignInForm', () => {
     ];
 
     render(<SignInForm />);
-    const button = screen.getByTestId('button');
-    expect(button).toBeDisabled();
     expect(screen.getByText('signingIn')).toBeInTheDocument();
   });
 

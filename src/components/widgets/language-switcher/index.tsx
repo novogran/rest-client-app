@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { GlobeIcon } from 'lucide-react';
-import { useLanguageSwitcher } from './useLanguageSwitcher';
+import { useLanguageSwitcher } from './use-language-switcher';
 import { useTranslations } from 'next-intl';
 
 export function LanguageSwitcher({ size = 'sm' }: { size?: 'sm' | 'default' }) {

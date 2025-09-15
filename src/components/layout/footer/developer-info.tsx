@@ -6,11 +6,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { DeveloperData } from '@/lib/types/developerInfo.types';
 import { FC } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { DeveloperData } from './types/developer-info';
 
 const DeveloperInfo: FC<{ developerData: DeveloperData }> = ({
   developerData,
