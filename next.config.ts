@@ -7,6 +7,16 @@ const nextConfig: NextConfig = {
   experimental: {
     globalNotFound: true,
   },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+      };
+    }
+
+    return config;
+  },
 };
 
 const withNextIntl = createNextIntlPlugin('./src/core/i18n/request.ts');
