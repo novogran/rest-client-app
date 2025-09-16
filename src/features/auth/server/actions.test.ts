@@ -11,6 +11,10 @@ vi.mock('@/core/session/session', () => ({
   getSession: vi.fn(),
 }));
 
+vi.mock('next-intl/server', () => ({
+  getTranslations: vi.fn().mockResolvedValue((key: string) => key),
+}));
+
 import {
   registerWithEmailAndPassword,
   logInWithEmailAndPassword,

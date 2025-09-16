@@ -2,7 +2,7 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { NextIntlClientProvider } from 'next-intl';
 import { vi, describe, it, expect } from 'vitest';
-import { LanguageSwitcher } from './index';
+import { LanguageSwitcher } from '.';
 
 const mockRouter = { replace: vi.fn() };
 vi.mock('@/core/i18n/navigation', () => ({

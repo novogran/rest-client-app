@@ -76,6 +76,9 @@ describe('Session Functions', () => {
     });
 
     it('should return null if the session cookie is invalid', async () => {
+      const consoleSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
       const sessionCookie = 'invalid-session-cookie';
       mockGet.mockReturnValue({ value: sessionCookie });
       mockVerifySessionCookie.mockRejectedValue(new Error('Invalid cookie'));
@@ -83,6 +86,7 @@ describe('Session Functions', () => {
       const session = await getSession();
 
       expect(session).toBeNull();
+      consoleSpy.mockRestore();
     });
   });
 });

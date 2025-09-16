@@ -123,14 +123,25 @@ interface UseActionStateResult {
 }
 
 let mockUseActionStateValue: [UseActionStateResult, () => void, boolean];
-let mockSetShowPassword: React.Dispatch<React.SetStateAction<boolean>>;
+let mockShowPassword = false;
+let mockSetShowPassword = vi.fn((value) => {
+  mockShowPassword =
+    typeof value === 'function' ? value(mockShowPassword) : value;
+});
 
-vi.mock('react', () => ({
-  ...vi.importActual('react'),
-  useActionState: () => mockUseActionStateValue,
-  useEffect: (callback: () => void) => callback(),
-  useState: () => [false, mockSetShowPassword || vi.fn()],
-}));
+vi.mock('react', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('react')>();
+  return {
+    ...actual,
+    useActionState: () => mockUseActionStateValue,
+    useState: (initialValue: unknown) => {
+      if (typeof initialValue === 'boolean') {
+        return [mockShowPassword, mockSetShowPassword];
+      }
+      return actual.useState(initialValue);
+    },
+  };
+});
 
 describe('SignInForm', () => {
   beforeEach(() => {

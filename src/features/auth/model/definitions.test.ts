@@ -1,6 +1,14 @@
-import { authFormSchema, FormState, signUpSchema } from './definitions';
+import {
+  createAuthFormSchema,
+  createSignUpSchema,
+  FormState,
+} from './definitions';
+const mockT = (key: string) => key;
 
 describe('Zod Schemas', () => {
+  const authFormSchema = createAuthFormSchema(mockT);
+  const signUpSchema = createSignUpSchema(mockT);
+
   describe('authFormSchema', () => {
     it('should validate correct email and password', () => {
       const validData = {
@@ -20,9 +28,7 @@ describe('Zod Schemas', () => {
 
       const result = authFormSchema.safeParse(invalidData);
       expect(result.success).toBe(false);
-      expect(result.error?.issues[0].message).toBe(
-        'Please enter a valid email.'
-      );
+      expect(result.error?.issues[0].message).toBe('email');
     });
 
     it('should reject empty email', () => {
@@ -43,9 +49,7 @@ describe('Zod Schemas', () => {
 
       const result = authFormSchema.safeParse(invalidData);
       expect(result.success).toBe(false);
-      expect(result.error?.issues[0].message).toBe(
-        'Be at least 8 characters long'
-      );
+      expect(result.error?.issues[0].message).toBe('passwordMin');
     });
 
     it('should reject password without letters', () => {
@@ -56,9 +60,7 @@ describe('Zod Schemas', () => {
 
       const result = authFormSchema.safeParse(invalidData);
       expect(result.success).toBe(false);
-      expect(result.error?.issues[0].message).toBe(
-        'Contain at least one letter.'
-      );
+      expect(result.error?.issues[0].message).toBe('passwordLetter');
     });
 
     it('should reject password without numbers', () => {
@@ -69,9 +71,7 @@ describe('Zod Schemas', () => {
 
       const result = authFormSchema.safeParse(invalidData);
       expect(result.success).toBe(false);
-      expect(result.error?.issues[0].message).toBe(
-        'Contain at least one number.'
-      );
+      expect(result.error?.issues[0].message).toBe('passwordNumber');
     });
 
     it('should reject password without special characters', () => {
@@ -82,9 +82,7 @@ describe('Zod Schemas', () => {
 
       const result = authFormSchema.safeParse(invalidData);
       expect(result.success).toBe(false);
-      expect(result.error?.issues[0].message).toBe(
-        'Contain at least one special character.'
-      );
+      expect(result.error?.issues[0].message).toBe('passwordSpecial');
     });
   });
 
@@ -109,7 +107,7 @@ describe('Zod Schemas', () => {
 
       const result = signUpSchema.safeParse(invalidData);
       expect(result.success).toBe(false);
-      expect(result.error?.issues[0].message).toBe("Passwords don't match");
+      expect(result.error?.issues[0].message).toBe('confirmPasswordMatch');
       expect(result.error?.issues[0].path).toEqual(['confirmPassword']);
     });
 

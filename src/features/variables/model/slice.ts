@@ -10,11 +10,10 @@ export interface Variable {
 }
 
 const VARIABLES_STORAGE_KEY = 'app_variables';
-
 const initialState: Variable[] =
   loadState<Variable[]>(VARIABLES_STORAGE_KEY) || [];
 
-const variablesSlice = createSlice({
+export const variablesSlice = createSlice({
   name: 'variables',
   initialState,
   reducers: {
@@ -23,9 +22,11 @@ const variablesSlice = createSlice({
       saveState(VARIABLES_STORAGE_KEY, state);
     },
     removeVariable: (state, action: PayloadAction<string>) => {
-      const newState = state.filter((v) => v.id !== action.payload);
-      saveState(VARIABLES_STORAGE_KEY, newState);
-      return newState;
+      const index = state.findIndex((v) => v.id === action.payload);
+      if (index !== -1) {
+        state.splice(index, 1);
+      }
+      saveState(VARIABLES_STORAGE_KEY, state);
     },
     updateVariable: (
       state,
@@ -42,7 +43,5 @@ const variablesSlice = createSlice({
 
 export const { addVariable, removeVariable, updateVariable } =
   variablesSlice.actions;
-
 export const selectVariables = (state: RootState) => state.variables;
-
 export default variablesSlice.reducer;

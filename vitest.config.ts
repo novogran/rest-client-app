@@ -14,6 +14,7 @@ export default defineConfig({
       exclude: [
         'src/components/ui/**',
         'src/core/i18n/**',
+        'src/**/index.ts',
         'src/middleware.ts',
         'src/**/*.test.{js,jsx,ts,tsx}',
         'src/index.{js,jsx,ts,tsx}',
