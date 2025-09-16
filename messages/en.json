@@ -27,17 +27,17 @@
     "title": "Welcome!",
     "subtitle": "This is a light-weight version of Postman."
   },
-  "Common": {
-    "LanguageSwitcher": {
-      "label": "Choose language",
-      "placeholder": "Select language"
-    }
-  },
   "NotFound": {
     "sadEmoji": "Sad Emoji",
     "title": "404 - Page Not Found",
     "message": "The Page you are looking for was not found!",
     "returnLink": "Return to Main Page"
+  },
+  "Common": {
+    "LanguageSwitcher": {
+      "label": "Choose language",
+      "placeholder": "Select language"
+    }
   },
   "Header": {
     "signIn": "Sign In",
@@ -64,5 +64,29 @@
     "signingIn": "Signing in...",
     "noAccount": "Don't have an account?",
     "signUpLink": "Sign up"
+  },
+  "RestClient": {
+    "title": "REST Client",
+    "sendButton": "Send",
+    "urlPlaceholder": "https://api.example.com",
+    "methodPlaceholder": "Method",
+    "headersTitle": "Headers",
+    "addHeaderButton": "Add Header",
+    "headerKeyPlaceholder": "Key",
+    "headerValuePlaceholder": "Value",
+    "noHeadersMessage": "No headers added.",
+    "codeTitle": "Code",
+    "noCodeMessage": "Please enter a URL to generate a code snippet.",
+    "codeGenerationError": "An error occurred while generating the code snippet.",
+    "bodyTitle": "Body",
+    "prettifyButton": "Prettify",
+    "responseTitle": "Response",
+    "errorMessageTitle": "Error",
+    "noResponseMessage": "Send a request to see the response here.",
+    "statusLabel": "Status",
+    "timeLabel": "Time",
+    "prettifySuccess": "JSON successfully prettified!",
+    "prettifyInfo": "Nothing to prettify.",
+    "prettifyError": "Invalid JSON. Cannot prettify."
   }
 }

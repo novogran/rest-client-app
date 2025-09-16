@@ -8,6 +8,10 @@ import {
   setRequestLocale,
 } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import StoreProvider from '../../components/StoreProvider';
+import { Toaster } from '@/components/ui/sonner';
+import { Header } from '@/components/Header';
+import Footer from '@/components/Footer';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -44,9 +48,16 @@ export default async function MainLayout({ children, params }: Props) {
   return (
     <html lang={locale}>
       <body>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
-        </NextIntlClientProvider>
+        <StoreProvider>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <div className="relative flex min-h-screen flex-col">
+              <Header />
+              <main className="flex-grow">{children}</main>
+              <Footer />
+            </div>
+            <Toaster />
+          </NextIntlClientProvider>
+        </StoreProvider>
       </body>
     </html>
   );

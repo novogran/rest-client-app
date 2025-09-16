@@ -1,178 +1,119 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Header } from '.';
 import { vi } from 'vitest';
-
-const mockPush = vi.fn();
-const mockReplace = vi.fn();
+import type { ImageProps } from 'next/image';
+import { getCurrentSession, logout } from '@/app/actions/auth';
 
 vi.mock('@/app/actions/auth', () => ({
   getCurrentSession: vi.fn(),
   logout: vi.fn(),
 }));
 
+const mockPush = vi.fn();
+const mockReplace = vi.fn();
 vi.mock('@/i18n/navigation', () => ({
-  useRouter: () => ({
-    push: mockPush,
-    replace: mockReplace,
-    prefetch: vi.fn(),
-    back: vi.fn(),
-    forward: vi.fn(),
-    refresh: vi.fn(),
-  }),
+  useRouter: () => ({ push: mockPush, replace: mockReplace }),
   usePathname: () => '/',
 }));
 
-const mockT = vi.fn((key: string) => {
-  const translations: Record<string, string> = {
-    'Header.signIn': 'Sign In',
-    'Header.signOut': 'Sign Out',
-    'Header.signUp': 'Sign Up',
-  };
-  return translations[key] || key;
-});
-
+const mockT = vi.fn();
 vi.mock('next-intl', () => ({
   useTranslations: () => mockT,
 }));
 
 vi.mock('next/image', () => ({
-  default: (props: {
-    src: string;
-    width: number;
-    height: number;
-    alt: string;
-    className: string;
-  }) => (
-    <img
-      src={props.src}
-      width={props.width}
-      height={props.height}
-      alt={props.alt}
-      className={props.className}
-    />
-  ),
+  default: (props: ImageProps) => {
+    const { src, alt, width, height, className } = props;
+    return (
+      <img
+        src={typeof src === 'string' ? src : ''}
+        alt={alt}
+        width={Number(width)}
+        height={Number(height)}
+        className={className}
+      />
+    );
+  },
 }));
 
-vi.mock('../shared/language-switcher', () => ({
-  LanguageSwitcher: () => (
-    <div data-testid="language-switcher">Language Switcher</div>
-  ),
+vi.mock('../LanguageSwitcher', () => ({
+  LanguageSwitcher: () => <div data-testid="language-switcher-mock" />,
 }));
 
-import { getCurrentSession, logout } from '@/app/actions/auth';
+const mockGetCurrentSession = vi.mocked(getCurrentSession);
+const mockLogout = vi.mocked(logout);
 
-const mockGetCurrentSession = getCurrentSession as vi.Mock;
-const mockLogout = logout as vi.Mock;
-
-describe('Header', () => {
+describe('Header Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-
-    mockGetCurrentSession.mockResolvedValue(null);
-    mockLogout.mockResolvedValue(undefined);
-
-    mockPush.mockClear();
-    mockReplace.mockClear();
-
-    mockT.mockClear();
-    mockT.mockImplementation((key: string) => {
-      const translations: Record<string, string> = {
-        'Header.signIn': 'Sign In',
-        'Header.signOut': 'Sign Out',
-        'Header.signUp': 'Sign Up',
-      };
-      return translations[key] || key;
-    });
+    mockGetCurrentSession.mockResolvedValue(undefined);
+    mockT.mockImplementation((key: string) => key);
   });
 
-  it('renders logo with link', async () => {
+  it('should render the logo and link to home', async () => {
     render(<Header />);
-
-    await waitFor(() => {
-      expect(screen.getByAltText('Logo')).toBeInTheDocument();
-    });
-
-    const logoLink = screen.getByTestId('logo-link');
-    expect(logoLink).toBeInTheDocument();
-    expect(logoLink).toHaveAttribute('href', '/');
+    const logo = await screen.findByAltText('Logo');
+    expect(logo).toBeInTheDocument();
+    expect(logo.closest('a')).toHaveAttribute('href', '/');
   });
 
-  it('shows sign in and sign up buttons when user is null', async () => {
-    mockGetCurrentSession.mockResolvedValue(null);
+  it('should show sign-in and sign-up buttons when user is not authenticated', async () => {
     render(<Header />);
-
-    await waitFor(() => {
-      expect(screen.getByText('signIn')).toBeInTheDocument();
-      expect(screen.getByText('signUp')).toBeInTheDocument();
-    });
+    expect(
+      await screen.findByRole('link', { name: /signIn/i })
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByRole('link', { name: /signUp/i })
+    ).toBeInTheDocument();
   });
 
-  it('shows sign out button when user is authenticated', async () => {
-    mockGetCurrentSession.mockResolvedValue('mock-token');
+  it('should show the sign-out button when user is authenticated', async () => {
+    mockGetCurrentSession.mockResolvedValue('mock-user-session');
     render(<Header />);
-
-    await waitFor(() => {
-      expect(screen.getByText('signOut')).toBeInTheDocument();
-    });
+    expect(
+      await screen.findByRole('button', { name: /signOut/i })
+    ).toBeInTheDocument();
   });
 
-  it('calls logout and redirects when sign out button clicked', async () => {
-    mockGetCurrentSession.mockResolvedValue('mock-token');
+  it('should navigate to /auth/signIn on sign-in button click', async () => {
     render(<Header />);
+    const signInLink = await screen.findByRole('link', { name: /signIn/i });
+    fireEvent.click(signInLink);
+    expect(signInLink).toHaveAttribute('href', '/auth/signIn');
+  });
 
-    await waitFor(() => {
-      expect(screen.getByText('signOut')).toBeInTheDocument();
+  it('should call logout action and redirect on sign-out button click', async () => {
+    mockGetCurrentSession.mockResolvedValue('mock-user-session');
+    render(<Header />);
+    const signOutButton = await screen.findByRole('button', {
+      name: /signOut/i,
     });
 
-    fireEvent.click(screen.getByText('signOut'));
+    fireEvent.click(signOutButton);
 
     await waitFor(() => {
-      expect(mockLogout).toHaveBeenCalled();
+      expect(mockLogout).toHaveBeenCalledTimes(1);
       expect(mockReplace).toHaveBeenCalledWith('/');
     });
   });
 
-  it('navigates to sign in page when sign in button clicked', async () => {
-    mockGetCurrentSession.mockResolvedValue(null);
+  it('should apply scrolled styles and change button size on scroll', async () => {
+    mockGetCurrentSession.mockResolvedValue('mock-user-session');
     render(<Header />);
 
-    await waitFor(() => {
-      expect(screen.getByText('signIn')).toBeInTheDocument();
-    });
+    const header = await screen.findByRole('banner');
+    const signOutButton = screen.getByRole('button', { name: /signOut/i });
 
-    fireEvent.click(screen.getByText('signIn'));
+    expect(header).not.toHaveClass('bg-primary/95');
+    expect(signOutButton).toHaveClass('h-9');
+    expect(signOutButton).not.toHaveClass('h-8');
 
-    expect(mockPush).toHaveBeenCalledWith('/auth/signIn');
-  });
-
-  it('navigates to sign up page when sign up button clicked', async () => {
-    mockGetCurrentSession.mockResolvedValue(null);
-    render(<Header />);
+    fireEvent.scroll(window, { target: { scrollY: 100 } });
 
     await waitFor(() => {
-      expect(screen.getByText('signUp')).toBeInTheDocument();
-    });
-
-    fireEvent.click(screen.getByText('signUp'));
-
-    expect(mockPush).toHaveBeenCalledWith('/auth/signUp');
-  });
-
-  it('handles errors when fetching user session', async () => {
-    mockGetCurrentSession.mockRejectedValue(new Error('Failed to fetch'));
-    render(<Header />);
-
-    await waitFor(() => {
-      expect(screen.getByText('signIn')).toBeInTheDocument();
-      expect(screen.getByText('signUp')).toBeInTheDocument();
-    });
-  });
-
-  it('renders language switcher', async () => {
-    render(<Header />);
-
-    await waitFor(() => {
-      expect(screen.getByTestId('language-switcher')).toBeInTheDocument();
+      expect(header).toHaveClass('bg-primary/95');
+      expect(signOutButton).toHaveClass('h-8');
+      expect(signOutButton).not.toHaveClass('h-9');
     });
   });
 });

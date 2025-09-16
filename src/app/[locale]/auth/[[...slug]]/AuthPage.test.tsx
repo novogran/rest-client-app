@@ -3,14 +3,6 @@ import AuthPage from './page';
 import { notFound } from 'next/navigation';
 import { vi, describe, it, expect } from 'vitest';
 
-vi.mock('@/components/Footer', () => ({
-  default: () => <div data-testid="footer">Footer</div>,
-}));
-
-vi.mock('@/components/Header', () => ({
-  Header: () => <div data-testid="header">Header</div>,
-}));
-
 vi.mock('@/components/SignIn/SignInForm', () => ({
   default: () => <div data-testid="signin-form">SignIn Form</div>,
 }));
@@ -29,9 +21,7 @@ describe('AuthPage', () => {
 
     const { getByTestId } = render(await AuthPage({ params }));
 
-    expect(getByTestId('header')).toBeInTheDocument();
     expect(getByTestId('signin-form')).toBeInTheDocument();
-    expect(getByTestId('footer')).toBeInTheDocument();
   });
 
   it('should render SignUpForm for signUp slug', async () => {
@@ -39,9 +29,7 @@ describe('AuthPage', () => {
 
     const { getByTestId } = render(await AuthPage({ params }));
 
-    expect(getByTestId('header')).toBeInTheDocument();
     expect(getByTestId('signup-form')).toBeInTheDocument();
-    expect(getByTestId('footer')).toBeInTheDocument();
   });
 
   it('should render SignInForm for empty slug array', async () => {
@@ -49,9 +37,7 @@ describe('AuthPage', () => {
 
     const { getByTestId } = render(await AuthPage({ params }));
 
-    expect(getByTestId('header')).toBeInTheDocument();
     expect(getByTestId('signin-form')).toBeInTheDocument();
-    expect(getByTestId('footer')).toBeInTheDocument();
   });
 
   it('should call notFound for invalid slug', async () => {
@@ -67,9 +53,7 @@ describe('AuthPage', () => {
 
     const { getByTestId } = render(await AuthPage({ params }));
 
-    expect(getByTestId('header')).toBeInTheDocument();
     expect(getByTestId('signin-form')).toBeInTheDocument();
-    expect(getByTestId('footer')).toBeInTheDocument();
   });
 
   it('should handle null slug', async () => {
@@ -77,8 +61,6 @@ describe('AuthPage', () => {
 
     const { getByTestId } = render(await AuthPage({ params }));
 
-    expect(getByTestId('header')).toBeInTheDocument();
     expect(getByTestId('signin-form')).toBeInTheDocument();
-    expect(getByTestId('footer')).toBeInTheDocument();
   });
 });

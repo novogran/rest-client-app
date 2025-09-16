@@ -1,5 +1,3 @@
-import Footer from '@/components/Footer';
-import { Header } from '@/components/Header';
 import SignInForm from '@/components/SignIn/SignInForm';
 import SignUpForm from '@/components/SignUp/SignUpForm';
 import { notFound } from 'next/navigation';
@@ -16,11 +14,5 @@ export default async function AuthPage({
     notFound();
   }
 
-  return (
-    <>
-      <Header />
-      {authType === 'signIn' ? <SignInForm /> : <SignUpForm />}
-      <Footer />
-    </>
-  );
+  return <>{authType === 'signIn' ? <SignInForm /> : <SignUpForm />}</>;
 }
