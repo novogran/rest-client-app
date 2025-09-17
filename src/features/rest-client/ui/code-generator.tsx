@@ -44,10 +44,21 @@ export function CodeGenerator() {
   }, shallowEqual);
 
   const codeSnippet = useMemo(() => {
-    if (!requestState.url) {
-      return t('noCodeMessage');
-    }
+    if (!requestState.url) return t('noCodeMessage');
+
     try {
+      const bodyText = (requestState.body ?? '').toString();
+      const contentTypeHeader = requestState.headers.find(
+        (h) => h.enabled && h.key && h.key.toLowerCase() === 'content-type'
+      )?.value;
+
+      const postData: NonNullable<
+        Har['log']['entries'][number]['request']['postData']
+      > = {
+        mimeType: contentTypeHeader || 'application/json',
+        text: bodyText,
+      };
+
       const har: Har = {
         log: {
           version: '1.2',
@@ -62,16 +73,7 @@ export function CodeGenerator() {
                 headers: requestState.headers
                   .filter((h) => h.enabled && h.key)
                   .map((h) => ({ name: h.key, value: h.value })),
-                postData: requestState.body
-                  ? {
-                      mimeType:
-                        requestState.headers.find(
-                          (h) =>
-                            h.enabled && h.key.toLowerCase() === 'content-type'
-                        )?.value || 'application/json',
-                      text: requestState.body,
-                    }
-                  : undefined,
+                postData,
                 httpVersion: 'HTTP/1.1',
                 cookies: [],
                 queryString: [],
@@ -105,8 +107,9 @@ export function CodeGenerator() {
         client as ConvertParams[1]
       );
 
-      return result || 'Could not generate snippet for this target.';
-    } catch {
+      return result || t('codeGenerationError');
+    } catch (error) {
+      console.error('HTTPSnippet failed:', error);
       return t('codeGenerationError');
     }
   }, [requestState, selectedTarget, t]);
@@ -136,7 +139,7 @@ export function CodeGenerator() {
               value={
                 Array.isArray(codeSnippet)
                   ? codeSnippet.join('\n')
-                  : codeSnippet
+                  : (codeSnippet as string)
               }
               height="250px"
               extensions={selectedLangExtension ? [selectedLangExtension] : []}
