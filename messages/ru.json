@@ -25,7 +25,9 @@
   },
   "HomePage": {
     "title": "Добро пожаловать!",
-    "subtitle": "Это легковесная версия Postman."
+    "subtitle": "Это легковесная версия Postman.",
+    "restClientLink": "Перейти к REST-клиенту",
+    "variablesLink": "Управлять переменными"
   },
   "NotFound": {
     "sadEmoji": "Грустный Смайлик",

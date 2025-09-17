@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import { restClientSlice } from '@/components/RestClient/restClientSlice';
+import variablesReducer from '@/components/Variables/variablesSlice';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       restClient: restClientSlice.reducer,
+      variables: variablesReducer,
     },
   });
 };

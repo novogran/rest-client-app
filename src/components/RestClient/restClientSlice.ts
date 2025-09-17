@@ -44,11 +44,17 @@ const initialState: RestClientState = {
   },
 };
 
+interface ExecuteRequestPayload {
+  method: HttpMethod;
+  url: string;
+  headers: Header[];
+  body: string;
+}
+
 export const executeRequest = createAsyncThunk(
   'restClient/executeRequest',
-  async (_, { getState }) => {
-    const state = getState() as RootState;
-    const { method, url, headers, body } = state.restClient;
+  async (processedRequest: ExecuteRequestPayload) => {
+    const { method, url, headers, body } = processedRequest;
 
     const activeHeaders = headers
       .filter((h) => h.enabled && h.key)
