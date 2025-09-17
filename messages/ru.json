@@ -27,7 +27,11 @@
     "title": "Добро пожаловать!",
     "subtitle": "Это легковесная версия Postman.",
     "restClientLink": "Перейти к REST-клиенту",
-    "variablesLink": "Управлять переменными"
+    "variablesLink": "Управлять переменными",
+    "historyLink": "История запросов",
+    "welcomeBack": "С возвращением!",
+    "signInLink": "Войти",
+    "signUpLink": "Зарегистрироваться"
   },
   "NotFound": {
     "sadEmoji": "Грустный Смайлик",
@@ -90,5 +94,26 @@
     "prettifySuccess": "JSON успешно отформатирован!",
     "prettifyInfo": "Нечего форматировать.",
     "prettifyError": "Невалидный JSON. Невозможно отформатировать."
+  },
+  "Variables": {
+    "title": "Переменные",
+    "noVariablesMessage": "Переменные еще не созданы.",
+    "createVariableButton": "Добавить переменную",
+    "variableNamePlaceholder": "Имя переменной",
+    "variableValuePlaceholder": "Значение переменной"
+  },
+  "History": {
+    "title": "История Запросов",
+    "noHistoryMessage": "Вы еще не выполняли запросов.",
+    "goToClientLink": "Сделать запрос",
+    "rerunButton": "Повторить"
+  },
+  "ZodErrors": {
+    "email": "Пожалуйста, введите корректный email.",
+    "passwordMin": "Пароль должен быть не менее 8 символов",
+    "passwordLetter": "Должен содержать хотя бы одну букву.",
+    "passwordNumber": "Должен содержать хотя бы одну цифру.",
+    "passwordSpecial": "Должен содержать хотя бы один спецсимвол.",
+    "confirmPasswordMatch": "Пароли не совпадают"
   }
 }

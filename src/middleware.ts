@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import createIntlMiddleware from 'next-intl/middleware';
-import { routing } from './i18n/routing';
+import { routing } from './core/i18n/routing';
 
-const protectedRoutes = ['/dashboard'];
+const protectedRoutes = ['/rest-client', '/variables', '/history'];
 const authRoutes = ['/auth/signIn', '/auth/signUp'];
 
 const intlMiddleware = createIntlMiddleware(routing);
@@ -19,30 +19,24 @@ export default async function middleware(req: NextRequest) {
   }
 
   const pathWithoutLocale = path.replace(/^\/(ru|en)\//, '/');
+  const locale = path.split('/')[1] || routing.defaultLocale;
+
+  const sessionCookie = req.cookies.get('session')?.value;
+  const isAuthenticated = !!sessionCookie;
 
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathWithoutLocale.startsWith(route)
   );
   const isAuthRoute = authRoutes.includes(pathWithoutLocale);
 
-  if (isProtectedRoute || isAuthRoute) {
-    const sessionCookie = req.cookies.get('session')?.value;
-    const isAuthenticated = !!sessionCookie && sessionCookie.length > 10;
-
-    if (isAuthRoute && isAuthenticated) {
-      const locale = path.split('/')[1] || 'en';
-      return NextResponse.redirect(new URL(`/${locale}`, req.url));
-    }
-
-    if (isProtectedRoute && !isAuthenticated) {
-      const locale = path.split('/')[1] || 'en';
-      return NextResponse.redirect(new URL(`/${locale}/auth/signIn`, req.url));
-    }
+  if (isAuthRoute && isAuthenticated) {
+    return NextResponse.redirect(new URL(`/${locale}`, req.url));
+  }
+  if (isProtectedRoute && !isAuthenticated) {
+    return NextResponse.redirect(new URL(`/${locale}/auth/signIn`, req.url));
   }
 
-  const response = intlMiddleware(req);
-
-  return response;
+  return intlMiddleware(req);
 }
 
 export const config = {

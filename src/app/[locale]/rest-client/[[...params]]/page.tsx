@@ -1,91 +1,131 @@
 'use client';
 
-import { useEffect, use, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSearchParams } from 'next/navigation';
-import dynamic from 'next/dynamic';
-import { initializeFromUrl } from '@/components/RestClient/restClientSlice';
-import { decode } from '@/lib/url-encoding';
+import { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSearchParams, useParams } from 'next/navigation';
 import { nanoid } from 'nanoid';
-import { Skeleton } from '@/components/ui/skeleton';
-import { AppDispatch } from '@/store/store';
+import { AppDispatch, RootState } from '@/core/store/store';
+import {
+  initializeFromUrl,
+  executeRequest,
+  setMethod,
+  setUrl,
+} from '@/features/rest-client';
+import { applyVariables, useRouter } from '@/core';
+import { encode, decode } from '@/core/http/url-encoding';
+import { useAppSelector } from '@/core/store/hooks';
+import { selectVariables } from '@/features/variables';
+import { useTranslations } from 'next-intl';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import {
+  MethodSelector,
+  HeadersEditor,
+  CodeGenerator,
+  BodyEditor,
+  ResponseViewer,
+} from '@/features/rest-client';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 type Header = { id: string; key: string; value: string; enabled: boolean };
 
-function RestClientSkeleton() {
-  return (
-    <div className="p-4 space-y-6 max-w-4xl mx-auto animate-pulse">
-      <h1 className="text-3xl font-bold">REST Client</h1>
-      <div className="space-y-4">
-        <div className="flex gap-2">
-          <Skeleton className="h-9 w-[92px]" />
-          <Skeleton className="h-9 flex-grow" />
-          <Skeleton className="h-9 w-[64px]" />
-        </div>
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <h3 className="font-semibold">Headers</h3>
-            <Skeleton className="h-8 w-25.5" />
-          </div>
-          <Skeleton className="h-13.5 w-full" />
-        </div>
-        <div className="space-y-2">
-          <h3 className="font-semibold">Code</h3>
-          <Skeleton className="h-76 w-full" />
-        </div>
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <h3 className="font-semibold">Body</h3>
-            <Skeleton className="h-8 w-18" />
-          </div>
-          <Skeleton className="h-50 w-full" />
-        </div>
-        <Skeleton className="h-83.5 w-full" />
-      </div>
-    </div>
-  );
-}
-
-const DynamicRestClientPage = dynamic(
-  () => import('@/components/RestClient').then((mod) => mod.RestClientPage),
-  {
-    ssr: false,
-    loading: () => <RestClientSkeleton />,
-  }
-);
-
-export default function Page({
-  params,
-}: {
-  params: Promise<{ params?: string[] }>;
-}) {
-  const resolvedParams = use(params);
+export default function RestClientPage() {
+  const t = useTranslations('RestClient');
   const dispatch: AppDispatch = useDispatch();
   const searchParams = useSearchParams();
+  const routeParams = useParams<{ params?: string[] }>();
   const isInitialized = useRef(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (isInitialized.current) return;
-
-    if (resolvedParams.params && resolvedParams.params.length > 0) {
+    const p = routeParams?.params || [];
+    if (p.length > 0) {
       isInitialized.current = true;
-
-      const [method, encodedUrl, encodedBody] = resolvedParams.params;
-
+      const [method, encodedUrl, encodedBody] = p;
       const url = decode(encodedUrl || '');
       const body = decode(encodedBody || '');
 
       const headers: Header[] = [];
       searchParams.forEach((value, key) => {
-        headers.push({ id: nanoid(), key, value, enabled: true });
+        headers.push({
+          id: nanoid(),
+          key,
+          value: String(value),
+          enabled: true,
+        });
       });
 
       dispatch(
         initializeFromUrl({ method: method as HttpMethod, url, body, headers })
       );
     }
-  }, [dispatch, resolvedParams.params, searchParams]);
+  }, [dispatch, routeParams, searchParams]);
 
-  return <DynamicRestClientPage />;
+  const { method, url, headers, body, response } = useSelector(
+    (s: RootState) => s.restClient
+  );
+  const variables = useAppSelector(selectVariables);
+
+  const handleSendRequest = () => {
+    const processedUrl = applyVariables(url, variables);
+    const processedHeaders = headers.map((h) => ({
+      ...h,
+      value: applyVariables(h.value, variables),
+    }));
+    const processedBody = applyVariables(body, variables);
+
+    const encodedUrl = encode(processedUrl);
+    const encodedBody = processedBody ? encode(processedBody) : undefined;
+
+    let pathname = `/rest-client/${method}/${encodedUrl}`;
+    if (encodedBody) pathname += `/${encodedBody}`;
+
+    const queryParams = new URLSearchParams();
+    processedHeaders.forEach((h) => {
+      if (h.enabled && h.key) queryParams.append(h.key, h.value);
+    });
+
+    const finalPath = queryParams.toString()
+      ? `${pathname}?${queryParams}`
+      : pathname;
+    router.push(finalPath, { scroll: false });
+
+    dispatch(
+      executeRequest({
+        url: processedUrl,
+        headers: processedHeaders,
+        body: processedBody,
+        method,
+      })
+    );
+  };
+
+  return (
+    <div className="p-4 space-y-6 max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold">{t('title')}</h1>
+      <div className="space-y-4">
+        <div className="flex gap-2">
+          <MethodSelector
+            value={method}
+            onChange={(m) => dispatch(setMethod(m))}
+          />
+          <Input
+            value={url}
+            onChange={(e) => dispatch(setUrl(e.target.value))}
+            placeholder={t('urlPlaceholder')}
+          />
+          <Button onClick={handleSendRequest} disabled={response.loading}>
+            {t('sendButton')}
+          </Button>
+        </div>
+        <HeadersEditor />
+        <CodeGenerator />
+        <BodyEditor />
+      </div>
+      <Separator />
+      <ResponseViewer />
+    </div>
+  );
 }
