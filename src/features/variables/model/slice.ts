@@ -13,6 +13,8 @@ const VARIABLES_STORAGE_KEY = 'app_variables';
 const initialState: Variable[] =
   loadState<Variable[]>(VARIABLES_STORAGE_KEY) || [];
 
+const normalizeKey = (k: string) => k.trim();
+
 export const variablesSlice = createSlice({
   name: 'variables',
   initialState,
@@ -32,10 +34,24 @@ export const variablesSlice = createSlice({
       state,
       action: PayloadAction<Partial<Variable> & { id: string }>
     ) => {
-      const variable = state.find((v) => v.id === action.payload.id);
-      if (variable) {
-        Object.assign(variable, action.payload);
+      const idx = state.findIndex((v) => v.id === action.payload.id);
+      if (idx === -1) return;
+
+      const next = { ...state[idx], ...action.payload };
+
+      if (typeof action.payload.key === 'string') {
+        const newKey = normalizeKey(action.payload.key);
+        if (
+          newKey &&
+          state.some((v, i) => i !== idx && normalizeKey(v.key) === newKey)
+        ) {
+          next.key = state[idx].key;
+        } else {
+          next.key = newKey;
+        }
       }
+
+      state.splice(idx, 1, next);
       saveState(VARIABLES_STORAGE_KEY, state);
     },
   },
