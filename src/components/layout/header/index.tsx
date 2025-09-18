@@ -38,7 +38,7 @@ export const Header = () => {
         const userSession = await getCurrentSession();
         setUser(userSession);
       } catch {
-        setUser(null);
+        handleLogout();
       }
     };
     fetchUser();

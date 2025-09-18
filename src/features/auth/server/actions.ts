@@ -118,6 +118,11 @@ export async function logout() {
 }
 
 export async function getCurrentSession() {
-  const session = await getSession();
-  return session;
+  try {
+    const session = await getSession();
+    return session;
+  } catch (error) {
+    console.error('Session verification failed:', error);
+    throw error;
+  }
 }
