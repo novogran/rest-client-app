@@ -108,6 +108,7 @@ export default function SignInForm() {
                     </FormLabel>
                     <FormControl>
                       <Input
+                        autoComplete="email"
                         placeholder="email@example.com"
                         type="email"
                         {...field}
@@ -123,12 +124,16 @@ export default function SignInForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-foreground font-medium">
+                    <FormLabel
+                      htmlFor="password"
+                      className="text-foreground font-medium"
+                    >
                       {t('passwordLabel')}
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input
+                          id="password"
                           placeholder={t('passwordPlaceholder')}
                           type={showPassword ? 'text' : 'password'}
                           className="pr-10"

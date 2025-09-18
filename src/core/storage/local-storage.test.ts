@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { loadState, saveState } from './local-storage';
+import { logger } from '@/core/utils/logger';
 
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
@@ -52,9 +53,7 @@ describe('localStorage Utilities', () => {
     });
 
     it('should return undefined and log an error for invalid JSON', () => {
-      const consoleSpy = vi
-        .spyOn(console, 'error')
-        .mockImplementation(() => {});
+      const consoleSpy = vi.spyOn(logger, 'error').mockImplementation(() => {});
       localStorageMock.setItem(TEST_KEY, 'invalid-json');
 
       const loadedData = loadState(TEST_KEY);

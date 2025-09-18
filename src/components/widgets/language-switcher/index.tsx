@@ -21,6 +21,7 @@ export function LanguageSwitcher({ size = 'sm' }: { size?: 'sm' | 'default' }) {
       onValueChange={onSelectChange}
       defaultValue={locale}
       disabled={isPending}
+      name="language-switcher"
     >
       <SelectTrigger
         className="w-[80px] transition-all duration-300 bg-background text-foreground cursor-pointer"

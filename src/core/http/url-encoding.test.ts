@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { encode, decode } from './url-encoding';
+import { logger } from '@/core/utils/logger';
 
 describe('URL Encoding Utilities', () => {
   const testCases = [
@@ -34,7 +35,7 @@ describe('URL Encoding Utilities', () => {
   });
 
   it('should return an empty string when decoding invalid Base64', () => {
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(logger, 'error').mockImplementation(() => {});
 
     const decoded = decode('this-is-not-valid-base64-%%%');
 
@@ -44,7 +45,7 @@ describe('URL Encoding Utilities', () => {
   });
 
   it('should return an empty string if btoa fails during encoding', () => {
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(logger, 'error').mockImplementation(() => {});
     const originalBtoa = global.btoa;
     global.btoa = vi.fn().mockImplementation(() => {
       throw new Error('Simulated BTOA failure');

@@ -35,6 +35,7 @@ export default function VariablesPage() {
         {variables.map((v) => (
           <div key={v.id} className="flex items-center gap-2">
             <Input
+              placeholder={t('variableNamePlaceholder')}
               value={v.key}
               onChange={(e) => {
                 const newKey = e.target.value;

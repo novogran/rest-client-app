@@ -118,11 +118,16 @@ export default function RestClientPage() {
             onChange={(m) => dispatch(setMethod(m))}
           />
           <Input
+            name="url"
             value={url}
             onChange={(e) => dispatch(setUrl(e.target.value))}
             placeholder={t('urlPlaceholder')}
           />
-          <Button onClick={handleSendRequest} disabled={response.loading}>
+          <Button
+            id="send-request"
+            onClick={handleSendRequest}
+            disabled={response.loading}
+          >
             {t('sendButton')}
           </Button>
         </div>

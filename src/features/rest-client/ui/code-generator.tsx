@@ -17,6 +17,7 @@ import { php } from '@codemirror/lang-php';
 import { selectProcessedRequest } from '../model/slice';
 import { useTranslations } from 'next-intl';
 import { methodSupportsBody } from '../model/http';
+import { logger } from '@/core/utils/logger';
 
 const targets = [
   { key: 'shell_curl', title: 'cURL', lang: StreamLanguage.define(shell) },
@@ -111,7 +112,7 @@ export function CodeGenerator() {
 
       return result || t('codeGenerationError');
     } catch (error) {
-      console.error('HTTPSnippet failed:', error);
+      logger.error('HTTPSnippet failed:', error);
       return t('codeGenerationError');
     }
   }, [requestState, selectedTarget, t]);

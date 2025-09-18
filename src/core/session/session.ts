@@ -1,6 +1,7 @@
 import 'server-only';
 import { cookies } from 'next/headers';
 import admin from '../firebase/admin';
+import { logger } from '../utils/logger';
 
 export async function createSession(idToken: string) {
   const expiresIn = 60 * 60 * 24 * 5 * 1000;
@@ -35,7 +36,7 @@ export async function getSession(): Promise<{ userId: string } | null> {
       .verifySessionCookie(sessionCookie, true);
     return { userId: decodedToken.uid };
   } catch (error) {
-    console.error('Session verification failed:', error);
+    logger.error('Session verification failed:', error);
     return null;
   }
 }
