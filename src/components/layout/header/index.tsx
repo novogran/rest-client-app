@@ -20,7 +20,13 @@ export const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      const currentScrollY = window.scrollY;
+
+      setIsScrolled((prev) => {
+        if (currentScrollY > 42) return true;
+        if (currentScrollY < 5) return false;
+        return prev;
+      });
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -57,10 +63,15 @@ export const Header = () => {
         <Link data-testid="logo-link" href="/" className="flex items-center">
           <Image
             src="/rest-client-app-logo.png"
-            width={isScrolled ? 100 : 120}
-            height={isScrolled ? 100 : 120}
+            width={120}
+            height={42}
             alt="Logo"
             className="transition-all duration-300 ease-in-out"
+            style={{
+              width: isScrolled ? '100px' : '120px',
+              height: isScrolled ? '35px' : '42px',
+            }}
+            priority={true}
           />
         </Link>
 
