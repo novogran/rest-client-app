@@ -6,6 +6,10 @@ import {
 } from '@reduxjs/toolkit';
 import type { RootState } from '@/core/store/store';
 import { executeRequestServer as executeServerRequest } from '../server/actions';
+import { createSelector } from 'reselect';
+import { selectVariables } from '@/features/variables/model/slice';
+import { applyVariables } from '@/core/http/variable-replacer';
+import { methodSupportsBody } from './http';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 type Header = { id: string; key: string; value: string; enabled: boolean };
@@ -70,7 +74,7 @@ export const executeRequest = createAsyncThunk(
       method,
       url,
       headers: activeHeaders,
-      body: method !== 'GET' ? body : undefined,
+      body: methodSupportsBody(method) && body.trim() ? body : undefined,
     });
     return response;
   }
@@ -89,6 +93,9 @@ export const restClientSlice = createSlice({
   reducers: {
     setMethod: (state, action: PayloadAction<HttpMethod>) => {
       state.method = action.payload;
+      if (!methodSupportsBody(state.method)) {
+        state.body = '';
+      }
     },
     setUrl: (state, action: PayloadAction<string>) => {
       state.url = action.payload;
@@ -117,10 +124,22 @@ export const restClientSlice = createSlice({
       }
     },
     initializeFromUrl: (state, action: PayloadAction<InitialStatePayload>) => {
-      if (action.payload.method) state.method = action.payload.method;
-      if (action.payload.url) state.url = action.payload.url;
-      if (action.payload.headers) state.headers = action.payload.headers;
-      if (action.payload.body) state.body = action.payload.body;
+      state.method = action.payload.method || 'GET';
+      state.url = action.payload.url || '';
+      state.headers = action.payload.headers || [];
+      state.body = action.payload.body ?? '';
+    },
+    commitProcessedRequest: (
+      state,
+      action: PayloadAction<{
+        url: string;
+        headers: Header[];
+        body: string | undefined;
+      }>
+    ) => {
+      state.url = action.payload.url;
+      state.headers = action.payload.headers;
+      state.body = action.payload.body ?? '';
     },
   },
   extraReducers: (builder) => {
@@ -154,9 +173,31 @@ export const {
   removeHeader,
   updateHeader,
   initializeFromUrl,
+  commitProcessedRequest,
 } = restClientSlice.actions;
 
 export const selectRequest = (state: RootState) => state.restClient;
 export const selectResponse = (state: RootState) => state.restClient.response;
 
 export default restClientSlice.reducer;
+
+const selectRestClientState = (state: RootState) => state.restClient;
+
+export const selectProcessedRequest = createSelector(
+  [selectRestClientState, selectVariables],
+  (restClient, variables) => {
+    const url = applyVariables(restClient.url, variables);
+    const headers = restClient.headers.map((h) => ({
+      ...h,
+      value: applyVariables(h.value, variables),
+    }));
+    const bodyReplaced = applyVariables(restClient.body, variables);
+
+    const body =
+      methodSupportsBody(restClient.method) && bodyReplaced.trim()
+        ? bodyReplaced
+        : '';
+
+    return { method: restClient.method, url, headers, body };
+  }
+);
