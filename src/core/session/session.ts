@@ -1,13 +1,12 @@
 import 'server-only';
 import { cookies } from 'next/headers';
 import admin from '../firebase/admin';
-import { logger } from '../utils/logger';
 
 export async function createSession(idToken: string) {
-  const expiresIn = 60 * 60 * 24 * 5 * 1000;
+  const expiresIn = 60 * 5;
   const sessionCookie = await admin
     .auth()
-    .createSessionCookie(idToken, { expiresIn });
+    .createSessionCookie(idToken, { expiresIn: expiresIn * 1000 });
 
   const cookieStore = await cookies();
   cookieStore.set('session', sessionCookie, {
@@ -36,7 +35,6 @@ export async function getSession(): Promise<{ userId: string } | null> {
       .verifySessionCookie(sessionCookie, true);
     return { userId: decodedToken.uid };
   } catch (error) {
-    logger.error('Session verification failed:', error);
-    return null;
+    throw error;
   }
 }

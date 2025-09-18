@@ -25,7 +25,7 @@
   },
   "HomePage": {
     "title": "Welcome!",
-    "subtitle": "This is a light-weight version of Postman.",
+    "subtitle": "This is a light-weight version of Postman. Cookies expired time 5 minutes.",
     "restClientLink": "Go to REST Client",
     "variablesLink": "Manage Variables",
     "historyLink": "Request History",

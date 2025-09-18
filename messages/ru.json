@@ -25,7 +25,7 @@
   },
   "HomePage": {
     "title": "Добро пожаловать!",
-    "subtitle": "Это легковесная версия Postman.",
+    "subtitle": "Это легковесная версия Postman. Время истечения срока жизни cookies 5 минут.",
     "restClientLink": "Перейти к REST-клиенту",
     "variablesLink": "Управлять переменными",
     "historyLink": "История запросов",

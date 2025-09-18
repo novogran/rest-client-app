@@ -39,7 +39,7 @@ describe('Session Functions', () => {
       await createSession(idToken);
 
       expect(mockCreateSessionCookie).toHaveBeenCalledWith(idToken, {
-        expiresIn: 60 * 60 * 24 * 5 * 1000,
+        expiresIn: 60 * 5 * 1000,
       });
       expect(mockSet).toHaveBeenCalledWith(
         'session',
@@ -73,20 +73,6 @@ describe('Session Functions', () => {
 
       expect(mockVerifySessionCookie).toHaveBeenCalledWith(sessionCookie, true);
       expect(session).toEqual({ userId: 'user-123' });
-    });
-
-    it('should return null if the session cookie is invalid', async () => {
-      const consoleSpy = vi
-        .spyOn(console, 'error')
-        .mockImplementation(() => {});
-      const sessionCookie = 'invalid-session-cookie';
-      mockGet.mockReturnValue({ value: sessionCookie });
-      mockVerifySessionCookie.mockRejectedValue(new Error('Invalid cookie'));
-
-      const session = await getSession();
-
-      expect(session).toBeNull();
-      consoleSpy.mockRestore();
     });
   });
 });

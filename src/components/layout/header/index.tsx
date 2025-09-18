@@ -32,23 +32,23 @@ export const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleLogout = async () => {
+    await logout();
+    setUser(null);
+    router.replace('/');
+  };
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const userSession = await getCurrentSession();
         setUser(userSession);
       } catch {
-        setUser(null);
+        handleLogout();
       }
     };
     fetchUser();
-  }, [pathname]);
-
-  const handleLogout = async () => {
-    await logout();
-    setUser(null);
-    router.replace('/');
-  };
+  }, [pathname, handleLogout]);
 
   return (
     <header
