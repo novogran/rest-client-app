@@ -2,6 +2,7 @@
 
 import { db } from '@/core/firebase/client';
 import { getSession } from '@/core/session/session';
+import { logger } from '@/core/utils/logger';
 import {
   collection,
   query,
@@ -55,7 +56,7 @@ export async function getHistory(): Promise<HistoryEntry[]> {
 
     return history;
   } catch (error) {
-    console.error('Failed to fetch history:', error);
+    logger.error('Failed to fetch history:', error);
     return [];
   }
 }

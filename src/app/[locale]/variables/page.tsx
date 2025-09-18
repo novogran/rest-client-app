@@ -9,13 +9,19 @@ import {
   addVariable,
   updateVariable,
   removeVariable,
+  Variable,
 } from '@/features/variables';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 
 export default function VariablesPage() {
   const dispatch = useAppDispatch();
   const variables = useAppSelector(selectVariables);
   const t = useTranslations('Variables');
+
+  const isKeyTaken = (list: Variable[], key: string, excludeId?: string) =>
+    !!key.trim() &&
+    list.some((v) => v.id !== excludeId && v.key.trim() === key.trim());
 
   return (
     <div className="p-4 space-y-6 max-w-4xl mx-auto">
@@ -31,10 +37,16 @@ export default function VariablesPage() {
             <Input
               placeholder={t('variableNamePlaceholder')}
               value={v.key}
-              onChange={(e) =>
-                dispatch(updateVariable({ id: v.id, key: e.target.value }))
-              }
+              onChange={(e) => {
+                const newKey = e.target.value;
+                if (isKeyTaken(variables, newKey, v.id)) {
+                  toast.error(t('duplicateKeyError'));
+                  return;
+                }
+                dispatch(updateVariable({ id: v.id, key: newKey }));
+              }}
             />
+
             <Input
               placeholder={t('variableValuePlaceholder')}
               value={v.value}

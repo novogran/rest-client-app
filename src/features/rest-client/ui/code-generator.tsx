@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { HTTPSnippet } from 'httpsnippet';
 import type { Har } from 'har-format';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -14,8 +14,10 @@ import { java } from '@codemirror/lang-java';
 import { go } from '@codemirror/lang-go';
 import { cpp } from '@codemirror/lang-cpp';
 import { php } from '@codemirror/lang-php';
-import { RootState } from '@/core/store/store';
+import { selectProcessedRequest } from '../model/slice';
 import { useTranslations } from 'next-intl';
+import { methodSupportsBody } from '../model/http';
+import { logger } from '@/core/utils/logger';
 
 const targets = [
   { key: 'shell_curl', title: 'cURL', lang: StreamLanguage.define(shell) },
@@ -38,16 +40,21 @@ export function CodeGenerator() {
   const t = useTranslations('RestClient');
   const [selectedTarget, setSelectedTarget] = useState(targets[0].key);
 
-  const requestState = useSelector((state: RootState) => {
-    const { method, url, headers, body } = state.restClient;
-    return { method, url, headers, body };
-  }, shallowEqual);
+  const requestState = useSelector(selectProcessedRequest);
 
   const codeSnippet = useMemo(() => {
-    if (!requestState.url) {
-      return t('noCodeMessage');
-    }
+    if (!requestState.url) return t('noCodeMessage');
+
     try {
+      const bodyText = (requestState.body ?? '').toString();
+      const contentTypeHeader = requestState.headers.find(
+        (h) => h.enabled && h.key && h.key.toLowerCase() === 'content-type'
+      )?.value;
+
+      const includeBody =
+        methodSupportsBody(requestState.method) &&
+        (requestState.body?.trim() ?? '') !== '';
+
       const har: Har = {
         log: {
           version: '1.2',
@@ -62,16 +69,14 @@ export function CodeGenerator() {
                 headers: requestState.headers
                   .filter((h) => h.enabled && h.key)
                   .map((h) => ({ name: h.key, value: h.value })),
-                postData: requestState.body
+                ...(includeBody
                   ? {
-                      mimeType:
-                        requestState.headers.find(
-                          (h) =>
-                            h.enabled && h.key.toLowerCase() === 'content-type'
-                        )?.value || 'application/json',
-                      text: requestState.body,
+                      postData: {
+                        mimeType: contentTypeHeader || 'application/json',
+                        text: bodyText,
+                      },
                     }
-                  : undefined,
+                  : {}),
                 httpVersion: 'HTTP/1.1',
                 cookies: [],
                 queryString: [],
@@ -105,8 +110,9 @@ export function CodeGenerator() {
         client as ConvertParams[1]
       );
 
-      return result || 'Could not generate snippet for this target.';
-    } catch {
+      return result || t('codeGenerationError');
+    } catch (error) {
+      logger.error('HTTPSnippet failed:', error);
       return t('codeGenerationError');
     }
   }, [requestState, selectedTarget, t]);
@@ -136,7 +142,7 @@ export function CodeGenerator() {
               value={
                 Array.isArray(codeSnippet)
                   ? codeSnippet.join('\n')
-                  : codeSnippet
+                  : (codeSnippet as string)
               }
               height="250px"
               extensions={selectedLangExtension ? [selectedLangExtension] : []}

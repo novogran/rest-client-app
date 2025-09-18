@@ -1,6 +1,7 @@
 'use server';
 
 import { getSession, firebaseAdmin as admin } from '@/core/server';
+import { logger } from '@/core/utils/logger';
 
 interface RequestPayload {
   method: string;
@@ -80,7 +81,7 @@ async function saveToHistory(
   try {
     const session = await getSession();
     if (!session?.userId) {
-      console.log('No active session, skipping history save.');
+      logger.info('No active session, skipping history save.');
       return;
     }
 
@@ -104,6 +105,6 @@ async function saveToHistory(
 
     await admin.firestore().collection('history').add(historyEntry);
   } catch (error) {
-    console.error('Failed to save request to history:', error);
+    logger.error('Failed to save request to history:', error);
   }
 }

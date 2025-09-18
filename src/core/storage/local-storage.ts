@@ -1,5 +1,7 @@
 'use client';
 
+import { logger } from '../utils/logger';
+
 export function loadState<T>(key: string): T | undefined {
   try {
     if (typeof window === 'undefined') {
@@ -11,7 +13,7 @@ export function loadState<T>(key: string): T | undefined {
     }
     return JSON.parse(serializedState) as T;
   } catch (error) {
-    console.error('Could not load state from localStorage', error);
+    logger.error('Could not load state from localStorage', error);
     return undefined;
   }
 }
@@ -24,6 +26,6 @@ export function saveState<T>(key: string, state: T): void {
     const serializedState = JSON.stringify(state);
     localStorage.setItem(key, serializedState);
   } catch (error) {
-    console.error('Could not save state to localStorage', error);
+    logger.error('Could not save state to localStorage', error);
   }
 }
