@@ -29,12 +29,14 @@ export function HeadersEditor() {
         {headers.map((header) => (
           <div key={header.id} className="flex items-center gap-2">
             <Checkbox
+              name={`header-enabled-${header.id}`}
               checked={header.enabled}
               onCheckedChange={(checked) =>
                 dispatch(updateHeader({ id: header.id, enabled: !!checked }))
               }
             />
             <Input
+              name={`header-key-${header.id}`}
               placeholder={t('headerKeyPlaceholder')}
               value={header.key}
               onChange={(e) =>
@@ -42,6 +44,7 @@ export function HeadersEditor() {
               }
             />
             <Input
+              name={`header-value-${header.id}`}
               placeholder={t('headerValuePlaceholder')}
               value={header.value}
               onChange={(e) =>

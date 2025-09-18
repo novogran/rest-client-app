@@ -105,12 +105,17 @@ export default function SignUpForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-foreground font-medium">
+                    <FormLabel
+                      htmlFor="email"
+                      className="text-foreground font-medium"
+                    >
                       {t('emailLabel')}
                     </FormLabel>
                     <FormControl>
                       <Input
+                        id="email"
                         placeholder="email@example.com"
+                        autoComplete="email"
                         type="email"
                         {...field}
                       />
@@ -125,12 +130,16 @@ export default function SignUpForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-foreground font-medium">
+                    <FormLabel
+                      htmlFor="password"
+                      className="text-foreground font-medium"
+                    >
                       {t('passwordLabel')}
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input
+                          id="password"
                           placeholder={t('passwordPlaceholder')}
                           type={showPassword ? 'text' : 'password'}
                           className="pr-10"
@@ -160,12 +169,16 @@ export default function SignUpForm() {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-foreground font-medium">
+                    <FormLabel
+                      htmlFor="confirm-password"
+                      className="text-foreground font-medium"
+                    >
                       {t('confirmPasswordLabel')}
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input
+                          id="confirm-password"
                           placeholder={t('confirmPasswordPlaceholder')}
                           type={showConfirmPassword ? 'text' : 'password'}
                           className="pr-10"
@@ -194,6 +207,7 @@ export default function SignUpForm() {
 
               <div className="flex items-center space-x-2">
                 <Checkbox
+                  name="show-passwords"
                   id="show-passwords"
                   checked={showPassword && showConfirmPassword}
                   onCheckedChange={(checked) => {

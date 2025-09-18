@@ -20,7 +20,7 @@ export function MethodSelector({ value, onChange }: MethodSelectorProps) {
   const methods: HttpMethod[] = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
 
   return (
-    <Select value={value} onValueChange={onChange}>
+    <Select value={value} onValueChange={onChange} name="method-selector">
       <SelectTrigger className="w-[120px]">
         <SelectValue placeholder={t('methodPlaceholder')} />
       </SelectTrigger>

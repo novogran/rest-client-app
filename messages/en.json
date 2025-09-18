@@ -100,7 +100,8 @@
     "noVariablesMessage": "No variables created yet.",
     "createVariableButton": "Add Variable",
     "variableNamePlaceholder": "Variable Name",
-    "variableValuePlaceholder": "Variable Value"
+    "variableValuePlaceholder": "Variable Value",
+    "duplicateKeyError": "A variable with this name already exists."
   },
   "History": {
     "title": "Request History",

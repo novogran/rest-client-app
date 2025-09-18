@@ -1,3 +1,5 @@
+import { logger } from '../utils/logger';
+
 export function encode(str: string): string {
   try {
     const base64 = btoa(
@@ -8,7 +10,7 @@ export function encode(str: string): string {
 
     return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   } catch (e) {
-    console.error('Encode failed:', e);
+    logger.error('Encode failed:', e);
     return '';
   }
 }
@@ -27,7 +29,7 @@ export function decode(base64url: string): string {
         .join('')
     );
   } catch (e) {
-    console.error('Decode failed:', e);
+    logger.error('Decode failed:', e);
     return '';
   }
 }

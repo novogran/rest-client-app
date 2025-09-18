@@ -100,7 +100,8 @@
     "noVariablesMessage": "Переменные еще не созданы.",
     "createVariableButton": "Добавить переменную",
     "variableNamePlaceholder": "Имя переменной",
-    "variableValuePlaceholder": "Значение переменной"
+    "variableValuePlaceholder": "Значение переменной",
+    "duplicateKeyError": "Ключ уже существует."
   },
   "History": {
     "title": "История Запросов",

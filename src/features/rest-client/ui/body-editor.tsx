@@ -32,7 +32,12 @@ export function BodyEditor() {
     <div className="space-y-2" data-testid="body-editor-section">
       <div className="flex items-center justify-between">
         <h3 className="font-semibold">{t('bodyTitle')}</h3>
-        <Button variant="outline" size="sm" onClick={handlePrettify}>
+        <Button
+          variant="outline"
+          size="sm"
+          name="prettify"
+          onClick={handlePrettify}
+        >
           {t('prettifyButton')}
         </Button>
       </div>

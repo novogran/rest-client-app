@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { getHistory } from './actions';
+import { logger } from '@/core/utils/logger';
 
 vi.mock('server-only', () => ({}));
 vi.mock('@/core/session/session');
@@ -60,7 +61,7 @@ describe('getHistory Server Action', () => {
   });
 
   it('should return an empty array if firestore throws an error', async () => {
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(logger, 'error').mockImplementation(() => {});
 
     mockedGetSession.mockResolvedValue({ userId: 'user-123' });
     mockedGetDocs.mockRejectedValue(new Error('Firestore failed'));
