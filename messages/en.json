@@ -1,0 +1,121 @@
+{
+  "Error": {
+    "reset": "Reset"
+  },
+  "Footer": {
+    "copyright": "© 2025 REST API client. All rights reserved."
+  },
+  "developers": {
+    "0": {
+      "name": "Daniil Sudorgin",
+      "description": "Front-end developer. Developer with commercial experience in Svelte, who used this course to deeply master the modern React ecosystem. He focuses on building robust, scalable applications with a strong emphasis on clean architecture, full test coverage, and pragmatic engineering solutions."
+    },
+    "1": {
+      "name": "Denys Yeresko",
+      "description": "Front-end developer. Working with React and TypeScript, I demonstrate integration with REST API, creation of interfaces using a clear component architecture. I'm quickly delving into the project, writing intelligent code and learning all about web."
+    },
+    "2": {
+      "name": "Vitali Navahran",
+      "description": "Team Lead. Vitali, 29, is a passionate developer who started programming in 2013 with Java, building Android apps. He later transitioned to Kotlin, embracing modern mobile development. In 2020, he improved his English to a pre-intermediate level, expanding his opportunities. Recently, he explored front-end development through RS School, learning HTML, CSS, and JavaScript, and enjoys blending creativity with problem-solving. Outside coding, he loves PC gaming, fixing electronics, car repairs, and swimming. He aims to grow as a developer, tackle bigger projects, and possibly teach in the future."
+    }
+  },
+  "Metadata": {
+    "title": "REST Client App",
+    "description": "The final project for the course"
+  },
+  "HomePage": {
+    "title": "Welcome!",
+    "subtitle": "This is a light-weight version of Postman. Session expire time 5 minutes.",
+    "restClientLink": "Go to REST Client",
+    "variablesLink": "Manage Variables",
+    "historyLink": "Request History",
+    "welcomeBack": "Welcome back!",
+    "signInLink": "Sign in",
+    "signUpLink": "Sign up"
+  },
+  "NotFound": {
+    "sadEmoji": "Sad Emoji",
+    "title": "404 - Page Not Found",
+    "message": "The Page you are looking for was not found!",
+    "returnLink": "Return to Main Page"
+  },
+  "Common": {
+    "LanguageSwitcher": {
+      "label": "Choose language",
+      "placeholder": "Select language"
+    }
+  },
+  "Header": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "logo": "App logo",
+    "home": "Home"
+  },
+  "Auth": {
+    "signUpTitle": "Create your account",
+    "signUpDescription": "Get started with our service",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Create a password",
+    "confirmPasswordLabel": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "showPasswords": "Show passwords",
+    "signUpButton": "Sign Up",
+    "creatingAccount": "Creating account...",
+    "haveAccount": "Already have an account?",
+    "signInLink": "Sign in",
+    "signInTitle": "Welcome back",
+    "signInDescription": "Enter your credentials to access your account",
+    "signInButton": "Sign In",
+    "signingIn": "Signing in...",
+    "noAccount": "Don't have an account?",
+    "signUpLink": "Sign up"
+  },
+  "RestClient": {
+    "title": "REST Client",
+    "sendButton": "Send",
+    "urlPlaceholder": "https://api.example.com",
+    "methodPlaceholder": "Method",
+    "headersTitle": "Headers",
+    "addHeaderButton": "Add Header",
+    "headerKeyPlaceholder": "Key",
+    "headerValuePlaceholder": "Value",
+    "noHeadersMessage": "No headers added.",
+    "codeTitle": "Code",
+    "noCodeMessage": "Please enter a URL to generate a code snippet.",
+    "codeGenerationError": "An error occurred while generating the code snippet.",
+    "bodyTitle": "Body",
+    "prettifyButton": "Prettify",
+    "responseTitle": "Response",
+    "errorMessageTitle": "Error",
+    "noResponseMessage": "Send a request to see the response here.",
+    "statusLabel": "Status",
+    "timeLabel": "Time",
+    "prettifySuccess": "JSON successfully prettified!",
+    "prettifyInfo": "Nothing to prettify.",
+    "prettifyError": "Invalid JSON. Cannot prettify."
+  },
+  "Variables": {
+    "title": "Variables",
+    "noVariablesMessage": "No variables created yet.",
+    "createVariableButton": "Add Variable",
+    "variableNamePlaceholder": "Variable Name",
+    "variableValuePlaceholder": "Variable Value",
+    "duplicateKeyError": "A variable with this name already exists."
+  },
+  "History": {
+    "title": "Request History",
+    "noHistoryMessage": "You haven't executed any requests yet.",
+    "goToClientLink": "Make a request",
+    "rerunButton": "Re-run"
+  },
+  "ZodErrors": {
+    "email": "Please enter a valid email.",
+    "passwordMin": "Be at least 8 characters long",
+    "passwordLetter": "Contain at least one letter.",
+    "passwordNumber": "Contain at least one number.",
+    "passwordSpecial": "Contain at least one special character.",
+    "confirmPasswordMatch": "Passwords don't match"
+  }
+}

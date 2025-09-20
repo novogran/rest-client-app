@@ -1,0 +1,115 @@
+'use server';
+
+import { getSession, firebaseAdmin as admin } from '@/core/server';
+import { logger } from '@/core/utils/logger';
+
+interface RequestPayload {
+  method: string;
+  url: string;
+  headers: Record<string, string>;
+  body?: string;
+}
+
+interface ClientResponse {
+  status: number | null;
+  statusText: string | null;
+  data: string | null;
+  headers: Record<string, string> | null;
+  duration: number;
+  error: string | null;
+}
+
+export async function executeRequestServer(
+  payload: RequestPayload
+): Promise<ClientResponse> {
+  const startTime = Date.now();
+  try {
+    const response = await fetch(payload.url, {
+      method: payload.method,
+      headers: payload.headers,
+      body: payload.body,
+    });
+    const duration = Date.now() - startTime;
+
+    const responseHeaders: Record<string, string> = {};
+    response.headers.forEach((value, key) => {
+      responseHeaders[key] = value;
+    });
+
+    const rawText = await response.text();
+    let responseForClient: string | null = rawText;
+
+    if (response.headers.get('content-type')?.includes('application/json')) {
+      try {
+        const jsonData: unknown = JSON.parse(rawText);
+        responseForClient = JSON.stringify(jsonData, null, 2);
+      } catch {}
+    }
+
+    const clientResponse = {
+      status: response.status,
+      statusText: response.statusText,
+      data: responseForClient,
+      headers: responseHeaders,
+      duration,
+      error: null,
+    };
+
+    await saveToHistory(payload, clientResponse);
+    return clientResponse;
+  } catch (error: unknown) {
+    const duration = Date.now() - startTime;
+    const errorResponse = {
+      status: null,
+      statusText: null,
+      data: null,
+      headers: null,
+      duration,
+      error: error instanceof Error ? error.message : 'Failed to fetch',
+    };
+
+    await saveToHistory(payload, errorResponse);
+
+    return errorResponse;
+  }
+}
+
+async function saveToHistory(
+  request: RequestPayload,
+  response: ClientResponse
+) {
+  try {
+    const session = await getSession();
+    if (!session?.userId) {
+      logger.info('No active session, skipping history save.');
+      return;
+    }
+
+    const isHttpError = response.status !== null && response.status >= 400;
+    const errorDetails =
+      response.error ??
+      (isHttpError ? `${response.status} ${response.statusText}` : null);
+
+    const historyEntry = {
+      userId: session.userId,
+      request: {
+        method: request.method,
+        url: request.url,
+        headers: request.headers,
+        body: request.body ?? null,
+        size: request.body ? new Blob([request.body]).size : 0,
+      },
+      response: {
+        status: response.status,
+        duration: response.duration,
+        size: response.data ? new Blob([response.data]).size : 0,
+        error: errorDetails,
+      },
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    };
+
+    await admin.firestore().collection('history').add(historyEntry);
+  } catch (error) {
+    logger.error('Failed to save request to history:', error);
+  }
+}
