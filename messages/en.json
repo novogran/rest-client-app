@@ -25,7 +25,7 @@
   },
   "HomePage": {
     "title": "Welcome!",
-    "subtitle": "This is a light-weight version of Postman. Cookies expired time 5 minutes.",
+    "subtitle": "This is a light-weight version of Postman. Session expire time 5 minutes.",
     "restClientLink": "Go to REST Client",
     "variablesLink": "Manage Variables",
     "historyLink": "Request History",
@@ -49,7 +49,8 @@
     "signIn": "Sign In",
     "signUp": "Sign Up",
     "signOut": "Sign Out",
-    "logo": "App logo"
+    "logo": "App logo",
+    "home": "Home"
   },
   "Auth": {
     "signUpTitle": "Create your account",

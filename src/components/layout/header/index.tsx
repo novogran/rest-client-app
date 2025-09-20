@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Button } from '../../ui/button';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { cn } from '@/core/utils/utils';
 import { LanguageSwitcher } from '../../widgets/language-switcher';
 
@@ -32,11 +32,11 @@ export const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     await logout();
     setUser(null);
     router.replace('/');
-  };
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -78,13 +78,22 @@ export const Header = () => {
         <nav className="flex items-center gap-3">
           <LanguageSwitcher size={isScrolled ? 'sm' : 'default'} />
           {user ? (
-            <Button
-              size={isScrolled ? 'sm' : 'default'}
-              variant="secondary"
-              onClick={handleLogout}
-            >
-              {t('signOut')}
-            </Button>
+            <>
+              <Button
+                size={isScrolled ? 'sm' : 'default'}
+                variant="secondary"
+                asChild
+              >
+                <Link href="/">{t('home')}</Link>
+              </Button>
+              <Button
+                size={isScrolled ? 'sm' : 'default'}
+                variant="secondary"
+                onClick={handleLogout}
+              >
+                {t('signOut')}
+              </Button>
+            </>
           ) : (
             <>
               <Button
