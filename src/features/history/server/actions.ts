@@ -20,11 +20,13 @@ export interface HistoryEntry {
     url: string;
     headers: Record<string, string>;
     body?: string;
+    size: number;
   };
   response: {
     status: number | null;
     duration: number | null;
     error: string | null;
+    size: number;
   };
   createdAt: Date;
 }

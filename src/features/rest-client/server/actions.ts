@@ -23,7 +23,6 @@ export async function executeRequestServer(
   payload: RequestPayload
 ): Promise<ClientResponse> {
   const startTime = Date.now();
-  let responseForClient: string | null = null;
   try {
     const response = await fetch(payload.url, {
       method: payload.method,
@@ -38,11 +37,13 @@ export async function executeRequestServer(
     });
 
     const rawText = await response.text();
-    try {
-      const jsonData: unknown = JSON.parse(rawText);
-      responseForClient = JSON.stringify(jsonData, null, 2);
-    } catch {
-      responseForClient = rawText;
+    let responseForClient: string | null = rawText;
+
+    if (response.headers.get('content-type')?.includes('application/json')) {
+      try {
+        const jsonData: unknown = JSON.parse(rawText);
+        responseForClient = JSON.stringify(jsonData, null, 2);
+      } catch {}
     }
 
     const clientResponse = {
@@ -55,7 +56,6 @@ export async function executeRequestServer(
     };
 
     await saveToHistory(payload, clientResponse);
-
     return clientResponse;
   } catch (error: unknown) {
     const duration = Date.now() - startTime;
@@ -85,6 +85,11 @@ async function saveToHistory(
       return;
     }
 
+    const isHttpError = response.status !== null && response.status >= 400;
+    const errorDetails =
+      response.error ??
+      (isHttpError ? `${response.status} ${response.statusText}` : null);
+
     const historyEntry = {
       userId: session.userId,
       request: {
@@ -98,7 +103,7 @@ async function saveToHistory(
         status: response.status,
         duration: response.duration,
         size: response.data ? new Blob([response.data]).size : 0,
-        error: response.error,
+        error: errorDetails,
       },
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     };
